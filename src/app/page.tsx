@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { CMSStore } from '../lib/payloadData';
-import { DoctorProfile, Service, ClinicLocation, Testimonial } from '../types';
+import { DoctorProfile, Service, ClinicLocation, Testimonial, GalleryImage } from '../types';
 import { Header } from '../components/Header';
 import { HeroSection } from '../components/HeroSection';
 import { AboutSection } from '../components/AboutSection';
 import { ServicesGrid } from '../components/ServicesGrid';
+import { GallerySection } from '../components/GallerySection';
 import { ClinicLocations } from '../components/ClinicLocations';
 import { TestimonialSlider } from '../components/TestimonialSlider';
 import { AppointmentForm } from '../components/AppointmentSection';
@@ -18,6 +19,7 @@ export default function HomePage() {
   const [services, setServices] = useState<Service[]>(CMSStore.getServices());
   const [clinics, setClinics] = useState<ClinicLocation[]>(CMSStore.getClinics());
   const [testimonials, setTestimonials] = useState<Testimonial[]>(CMSStore.getTestimonials());
+  const [gallery, setGallery] = useState<GalleryImage[]>(CMSStore.getGallery());
 
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedServiceForBooking, setSelectedServiceForBooking] = useState('');
@@ -28,6 +30,7 @@ export default function HomePage() {
     setServices(CMSStore.getServices());
     setClinics(CMSStore.getClinics());
     setTestimonials(CMSStore.getTestimonials());
+    setGallery(CMSStore.getGallery());
   }, []);
 
   const handleOpenBooking = (serviceOrClinicName?: string) => {
@@ -41,10 +44,12 @@ export default function HomePage() {
     setBookingModalOpen(true);
   };
 
+  const primaryClinic = clinics.find((c) => c.isPrimary) || clinics[0];
+
   return (
     <main className="min-h-screen bg-paper relative flex flex-col">
       {/* 1. Header */}
-      <Header profile={profile} onOpenBooking={() => handleOpenBooking()} />
+      <Header profile={profile} primaryClinic={primaryClinic} onOpenBooking={() => handleOpenBooking()} />
 
       {/* 2. Hero: name, credentials, primary CTAs */}
       <HeroSection profile={profile} onOpenBooking={() => handleOpenBooking()} />
@@ -55,7 +60,10 @@ export default function HomePage() {
       {/* 4. Surgical Specialties */}
       <ServicesGrid services={services} onOpenBooking={(serviceName) => handleOpenBooking(serviceName)} />
 
-      {/* 5. Patient Reviews */}
+      {/* 5. Clinic Gallery */}
+      <GallerySection images={gallery} />
+
+      {/* 6. Patient Reviews */}
       <TestimonialSlider testimonials={testimonials} />
 
       {/* 6. Clinic OPD Locations */}

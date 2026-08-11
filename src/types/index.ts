@@ -1,5 +1,6 @@
 export interface DoctorProfile {
   name: string;
+  clinicName: string;
   titles: string;
   degrees: string[];
   regNumber: string;
@@ -14,6 +15,7 @@ export interface DoctorProfile {
   email: string;
   emergencyContact: string;
   avatarUrl: string;
+  logoUrl: string;
   heroBadge: string;
 }
 
@@ -21,7 +23,7 @@ export interface Service {
   id: string;
   slug: string;
   title: string;
-  category: 'Laser Proctology' | 'Laparoscopic Surgery' | 'General Surgery' | 'General Care' | 'Emergency Care';
+  category: 'Robotic Surgery' | 'Laser Proctology' | 'Laparoscopic Surgery' | 'General Surgery' | 'General Care' | 'Emergency Care';
   shortDesc: string;
   fullDesc: string;
   symptoms: string[];
@@ -72,6 +74,12 @@ export interface Testimonial {
   comment: string;
   date: string;
   verified: boolean;
+}
+
+export interface GalleryImage {
+  id: string;
+  url: string;
+  caption: string;
 }
 
 export interface BlogPost {

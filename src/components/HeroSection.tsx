@@ -18,8 +18,8 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
         <div className="grid md:grid-cols-12 gap-10 lg:gap-16 items-center">
 
           <div className="md:col-span-7 space-y-6">
-            <p className="text-xs font-medium uppercase tracking-widest text-forest-700">
-              MBBS, M.S. Surgery (KGMU Lucknow) · FMAS
+            <p className="text-sm font-semibold uppercase tracking-widest text-forest-700">
+              {profile.heroBadge} 
             </p>
 
             <div>
@@ -29,16 +29,19 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
               <p className="text-base sm:text-lg text-ink/70 mt-2">
                 {profile.titles}
               </p>
+              <p className="text-base sm:text-base text-forest-700 font-semibold mt-1">
+                {profile.clinicName}
+              </p>
             </div>
 
-            <p className="text-ink/70 text-sm sm:text-base leading-relaxed max-w-xl">
+            <p className="text-ink/70 text-base sm:text-base leading-relaxed max-w-xl">
               {profile.bio}
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={onOpenBooking}
-                className="px-6 py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-medium text-sm transition-colors flex items-center gap-2"
+                className="px-6 py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-semibold text-base transition-colors flex items-center gap-2"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Book Appointment</span>
@@ -46,7 +49,7 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
 
               <a
                 href={`tel:${profile.phonePrimary}`}
-                className="px-5 py-3 rounded-full text-ink/80 font-medium text-sm border border-ink/15 hover:border-ink/30 transition-colors flex items-center gap-2"
+                className="px-5 py-3 rounded-full text-ink/80 font-semibold text-base border border-ink/15 hover:border-ink/30 transition-colors flex items-center gap-2"
               >
                 <Phone className="w-4 h-4" />
                 <span>{profile.phonePrimary}</span>
@@ -57,7 +60,7 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
               href={linkedinUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-ink/50 hover:text-forest-700 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-ink/50 hover:text-forest-700 transition-colors"
             >
               <span>Verified LinkedIn profile</span>
               <ExternalLink className="w-3 h-3" />
@@ -68,7 +71,7 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
             <div className="relative w-full max-w-sm">
               <div className="rounded-2xl overflow-hidden border border-ink/10 aspect-[4/5] bg-forest-50">
                 <img
-                  src="https://media.licdn.com/dms/image/v2/D5603AQHxt5ew4TFmFw/profile-displayphoto-crop_800_800/B56Zwp0rBwGgAI-/0/1770228201011?e=1787788800&v=beta&t=WVmHyjAo5kpm8Sy9N6kwHfyTC-Ppn76bgh_r9XR0sjE"
+                  src={profile.avatarUrl}
                   alt={profile.name}
                   className="w-full h-full object-cover"
                 />
@@ -77,12 +80,12 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
               <div className="absolute -bottom-5 left-5 right-5 bg-paper border border-ink/10 rounded-xl px-4 py-3 flex items-center justify-around text-center shadow-sm">
                 <div>
                   <p className="text-lg font-serif text-forest-700">{profile.experienceYears}+</p>
-                  <p className="text-[10px] text-ink/50 uppercase tracking-wide">Years</p>
+                  <p className="text-sm text-ink/50 uppercase tracking-wide">Years</p>
                 </div>
                 <div className="w-px h-8 bg-ink/10" />
                 <div>
                   <p className="text-lg font-serif text-forest-700">{profile.surgeriesCount.toLocaleString()}+</p>
-                  <p className="text-[10px] text-ink/50 uppercase tracking-wide">Surgeries</p>
+                  <p className="text-sm text-ink/50 uppercase tracking-wide">Surgeries</p>
                 </div>
               </div>
             </div>

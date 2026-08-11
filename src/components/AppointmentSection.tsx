@@ -31,6 +31,16 @@ export const AppointmentForm: React.FC<BookingProps> = ({
   const [preferredDate, setPreferredDate] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
+  const whatsappMessage = `Hello Dr. Rachit Raj, I would like to book an appointment.%0A` +
+    `Name: ${encodeURIComponent(patientName || '-')}%0A` +
+    `Phone: ${encodeURIComponent(phone || '-')}%0A` +
+    `Clinic: ${encodeURIComponent(selectedClinic)}%0A` +
+    `Treatment: ${encodeURIComponent(selectedService || 'General OPD')}%0A` +
+    `Preferred Date: ${encodeURIComponent(preferredDate || 'Not specified')}`;
+
+  const whatsappUrl = `https://wa.me/${profile.whatsappNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
+  const primaryClinic = clinics.find((c) => c.isPrimary) || clinics[0];
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!patientName || !phone) return;
@@ -44,16 +54,11 @@ export const AppointmentForm: React.FC<BookingProps> = ({
       preferredTime: "11:00 AM",
     });
 
+    // Hand off straight to WhatsApp so the doctor gets the patient's name & number to call back.
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
     setSubmitted(true);
   };
-
-  const whatsappMessage = `Hello Dr. Rachit Raj,%0A` +
-    `Name: ${encodeURIComponent(patientName)}%0A` +
-    `Phone: ${encodeURIComponent(phone)}%0A` +
-    `Clinic: ${encodeURIComponent(selectedClinic)}%0A` +
-    `Treatment: ${encodeURIComponent(selectedService || 'General OPD')}`;
-
-  const whatsappUrl = `https://wa.me/${profile.whatsappNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
   const formFields = (
     <div className="space-y-4">
@@ -61,12 +66,12 @@ export const AppointmentForm: React.FC<BookingProps> = ({
         <div className="py-8 text-center space-y-4">
           <CheckCircle2 className="w-12 h-12 text-forest-600 mx-auto" />
           <h4 className="text-lg font-serif text-ink">Appointment Request Sent</h4>
-          <p className="text-xs text-ink/60">Our clinic team will contact you shortly to confirm your slot.</p>
+          <p className="text-sm text-ink/60">Our clinic team will contact you shortly to confirm your slot.</p>
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-medium text-xs transition-colors"
+            className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-semibold text-sm transition-colors"
           >
             <MessageSquare className="w-4 h-4" />
             Confirm on WhatsApp
@@ -76,37 +81,37 @@ export const AppointmentForm: React.FC<BookingProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-xs font-medium text-ink/70">Name *</label>
+              <label className="text-sm font-semibold text-ink/70">Name *</label>
               <input
                 type="text"
                 required
                 placeholder="Full name"
                 value={patientName}
                 onChange={(e) => setPatientName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-sm focus:border-forest-600 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-base focus:border-forest-600 outline-none"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-medium text-ink/70">Phone *</label>
+              <label className="text-sm font-semibold text-ink/70">Phone *</label>
               <input
                 type="tel"
                 required
                 placeholder="+91 mobile number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-sm focus:border-forest-600 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-base focus:border-forest-600 outline-none"
               />
             </div>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-xs font-medium text-ink/70">Clinic</label>
+              <label className="text-sm font-semibold text-ink/70">Clinic</label>
               <select
                 value={selectedClinic}
                 onChange={(e) => setSelectedClinic(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-sm focus:border-forest-600 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-base focus:border-forest-600 outline-none"
               >
                 {clinics.map((c) => (
                   <option key={c.id} value={c.name}>{c.name}</option>
@@ -115,11 +120,11 @@ export const AppointmentForm: React.FC<BookingProps> = ({
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-medium text-ink/70">Treatment</label>
+              <label className="text-sm font-semibold text-ink/70">Treatment</label>
               <select
                 value={selectedService}
                 onChange={(e) => setSelectedService(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-sm focus:border-forest-600 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-base focus:border-forest-600 outline-none"
               >
                 <option value="">General OPD Consultation</option>
                 {services.map((s) => (
@@ -130,19 +135,19 @@ export const AppointmentForm: React.FC<BookingProps> = ({
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-medium text-ink/70">Preferred Date</label>
+            <label className="text-sm font-semibold text-ink/70">Preferred Date</label>
             <input
               type="date"
               value={preferredDate}
               onChange={(e) => setPreferredDate(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-sm focus:border-forest-600 outline-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-paper border border-ink/15 text-base focus:border-forest-600 outline-none"
             />
           </div>
 
           <div className="pt-2 flex items-center gap-3">
             <button
               type="submit"
-              className="px-6 py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-medium text-sm transition-colors"
+              className="px-6 py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-semibold text-base transition-colors"
             >
               Book Appointment
             </button>
@@ -151,7 +156,7 @@ export const AppointmentForm: React.FC<BookingProps> = ({
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-3 rounded-full border border-ink/15 hover:border-ink/30 text-ink/80 font-medium text-sm transition-colors flex items-center gap-1.5"
+              className="px-5 py-3 rounded-full border border-ink/15 hover:border-ink/30 text-ink/80 font-semibold text-base transition-colors flex items-center gap-1.5"
             >
               <MessageSquare className="w-4 h-4" />
               <span>WhatsApp</span>
@@ -192,25 +197,27 @@ export const AppointmentForm: React.FC<BookingProps> = ({
           </div>
 
           <div className="md:col-span-5 border border-ink/10 rounded-2xl p-6 space-y-4">
-            <div className="flex items-center gap-2 text-ink font-medium text-sm">
+            <div className="flex items-center gap-2 text-ink font-semibold text-base">
               <Clock className="w-4 h-4 text-forest-600" />
               <h3>Clinic Hours</h3>
             </div>
 
-            <div className="space-y-2 text-sm text-ink/70 pt-2 border-t border-ink/10">
-              <div className="flex justify-between">
-                <span>Monday – Saturday</span>
-                <span className="text-ink font-medium">10:00 AM – 7:00 PM</span>
-              </div>
+            <div className="space-y-2 text-base text-ink/70 pt-2 border-t border-ink/10">
+              {primaryClinic && (
+                <div className="flex justify-between gap-3">
+                  <span>{primaryClinic.days}</span>
+                  <span className="text-ink font-semibold text-right">{primaryClinic.timings}</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span>Emergency OPD</span>
-                <span className="text-forest-700 font-medium">24/7 Helpline</span>
+                <span className="text-forest-700 font-semibold">24/7 Helpline</span>
               </div>
             </div>
 
             <a
               href={`tel:${profile.emergencyContact}`}
-              className="w-full py-2.5 rounded-full border border-ink/15 hover:border-ink/30 text-ink/80 font-medium text-sm text-center flex items-center justify-center gap-1.5 transition-colors"
+              className="w-full py-2.5 rounded-full border border-ink/15 hover:border-ink/30 text-ink/80 font-semibold text-base text-center flex items-center justify-center gap-1.5 transition-colors"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>Call {profile.emergencyContact}</span>

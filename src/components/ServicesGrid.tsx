@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Service } from '../types';
-import { Zap, Activity, HeartPulse, ArrowUpRight } from 'lucide-react';
+import { Zap, Activity, HeartPulse, Bot, ArrowUpRight } from 'lucide-react';
 
 interface ServicesProps {
   services: Service[];
@@ -13,6 +13,7 @@ const iconMap: Record<string, React.ElementType> = {
   Zap,
   Activity,
   HeartPulse,
+  Bot,
 };
 
 export const ServicesGrid: React.FC<ServicesProps> = ({ services, onOpenBooking }) => {
@@ -22,7 +23,7 @@ export const ServicesGrid: React.FC<ServicesProps> = ({ services, onOpenBooking 
 
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <h2 className="text-2xl sm:text-3xl font-serif text-ink">Surgical Specialties</h2>
-          <p className="text-ink/60 text-sm max-w-sm">
+          <p className="text-ink/60 text-base max-w-sm">
             Daycare procedures with same-day discharge and minimal recovery time.
           </p>
         </div>
@@ -51,12 +52,12 @@ export const ServicesGrid: React.FC<ServicesProps> = ({ services, onOpenBooking 
 
                 <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-sm font-semibold text-ink">{service.title}</h3>
-                    <p className="text-xs text-ink/60 mt-1.5 leading-relaxed line-clamp-2">{service.shortDesc}</p>
+                    <h3 className="text-base font-semibold text-ink">{service.title}</h3>
+                    <p className="text-sm text-ink/60 mt-1.5 leading-relaxed line-clamp-2">{service.shortDesc}</p>
                   </div>
 
                   <div className="pt-3 border-t border-ink/10 flex items-center justify-between">
-                    <span className="text-[11px] text-ink/50">
+                    <span className="text-sm text-ink/50">
                       {service.procedureTime} · {service.recoveryTime}
                     </span>
                     <button

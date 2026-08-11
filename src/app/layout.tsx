@@ -16,9 +16,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Dr. Rachit Raj | Consultant Laparoscopic & Laser Coloproctology Surgeon Lucknow",
-  description: "Official portfolio and clinic consultation portal of Dr. Rachit Raj (MBBS KGMU, MS, FMAS) - Expert Laser Piles, Fissure, Fistula & Laparoscopic Surgery in Gomti Nagar, Lucknow.",
-  keywords: ["Dr Rachit Raj", "Doctor Lucknow", "Laser Piles Surgery Lucknow", "Laparoscopic Surgeon Gomti Nagar", "Healing Hands Clinic Lucknow"],
+  title: "Dr. Rachit Raj | Dr. Rachit's Laser & Laparoscopy Clinic, Gomti Nagar, Lucknow",
+  description: "Official website of Dr. Rachit's Laser & Laparoscopy Clinic - Dr. Rachit Raj (MBBS KGMU, MS Gold Medalist, FMAS, MCLS) - Expert Robotic, Laparoscopic & Laser Piles/Fissure/Fistula Surgery in Gomti Nagar, Lucknow.",
+  keywords: ["Dr Rachit Raj", "Dr Rachit's Laser and Laparoscopy Clinic", "Doctor Lucknow", "Laser Piles Surgery Lucknow", "Laparoscopic Surgeon Gomti Nagar", "Robotic Surgery Lucknow"],
 };
 
 export default function RootLayout({

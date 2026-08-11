@@ -1,44 +1,46 @@
-import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, BlogPost } from '@/types';
+import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, BlogPost, GalleryImage } from '@/types';
 
 export const INITIAL_DOCTOR_PROFILE: DoctorProfile = {
   name: "Dr. Rachit Raj",
+  clinicName: "Dr. Rachit's Laser & Laparoscopy Clinic",
   titles: "Consultant General, Laparoscopic & Laser Proctologist",
-  degrees: ["MBBS (KGMU Lucknow)", "MS (General Surgery)", "FMAS (Minimal Access Surgery)"],
+  degrees: ["MBBS (KGMU)", "MS (Gold Medalist, Meerut University)", "ATLS Instructor", "FMAS", "MCLS"],
   regNumber: "UPMC-78412",
   experienceYears: 10,
   surgeriesCount: 5000,
   satisfactionRate: 99.4,
-  heroBadge: "KGMU Lucknow Alumnus | 10+ Years Surgical Experience",
-  bio: "Specialist in painless laser proctology (Piles, Fissure, Fistula) and laparoscopic keyhole surgeries in Gomti Nagar, Lucknow.",
-  longBio: "Dr. Rachit Raj completed his MBBS from the prestigious King George's Medical University (KGMU), Lucknow, followed by MS in General Surgery and Fellowship in Minimal Access Surgery (FMAS). He specializes in modern daycare laser proctology and laparoscopic procedures, focusing on zero-pain recovery and same-day discharge.",
-  phonePrimary: "+91 88558 65060",
-  phoneSecondary: "+91 91400 00000",
-  whatsappNumber: "+918855865060",
+  heroBadge: "MBBS (KGMU) | MS (Gold Medalist) | FMAS, MCLS",
+  bio: "Specialist in painless laser proctology (Piles, Fissure, Fistula) and robotic & laparoscopic keyhole surgeries at Dr. Rachit's Laser & Laparoscopy Clinic, Gomti Nagar, Lucknow.",
+  longBio: "Dr. Rachit Raj completed his MBBS from the prestigious King George's Medical University (KGMU), followed by MS (Gold Medalist) from Meerut University. He is a certified ATLS Instructor with Fellowship in Minimal Access Surgery (FMAS) and MCLS training. At Dr. Rachit's Laser & Laparoscopy Clinic he specializes in robotic surgery, laparoscopic procedures and modern daycare laser proctology, focusing on zero-pain recovery and same-day discharge.",
+  phonePrimary: "+91 90446 87625",
+  phoneSecondary: "+91 90446 87625",
+  whatsappNumber: "+919044687625",
   email: "drrachitraj.surgery@gmail.com",
-  emergencyContact: "+91 88558 65060",
-  avatarUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop",
+  emergencyContact: "+91 90446 87625",
+  avatarUrl: "https://media.licdn.com/dms/image/v2/D5603AQHxt5ew4TFmFw/profile-displayphoto-crop_800_800/B56Zwp0rBwGgAI-/0/1770228201011?e=1787788800&v=beta&t=WVmHyjAo5kpm8Sy9N6kwHfyTC-Ppn76bgh_r9XR0sjE",
+  logoUrl: "https://res.cloudinary.com/dlv1uvt41/image/upload/c_crop,g_north_west,h_230,w_237,x_98,y_168/AHRPTWmqjJ4TLwDbMVqXKsqqlMCWe4NOcEAWNZ8W86zoT3u2ZaGxc95Ki5uTcYuH5fub34mruENx8HMQtC43bVNfahhWOIKiV_r7FgqdvBo9l_zBz71DCgqCLVAhHrYqUxwOyGweq6KLBhfEnb8_s1360-w1360-h1020-rw_ymu000.webp",
 };
 
 export const INITIAL_SERVICES: Service[] = [
   {
-    id: "laser-proctology",
-    slug: "laser-piles-fissure-fistula",
-    title: "Laser Proctology (Piles, Fissure, Fistula)",
-    category: "Laser Proctology",
-    shortDesc: "Painless 30-minute laser treatment for Piles, Fissure, Fistula & Pilonidal Sinus with same-day discharge.",
-    fullDesc: "Modern laser hemorrhoidoplasty and FiLaC laser closure offer zero cuts, minimal post-op pain, and quick resumption of work.",
-    symptoms: ["Pain or bleeding during stool", "Anal swelling or discharge", "Chronic fissure pain"],
-    benefits: ["No open cuts or stitches", "Same-day discharge", "Rapid 48-hour recovery"],
-    procedureTime: "30 Mins",
-    recoveryTime: "1-2 Days",
-    iconName: "Zap",
-    imageUrl: "/images/laser_surgery_tech.jpg",
+    id: "robotic-surgery",
+    slug: "robotic-surgery",
+    title: "Robotic Surgery",
+    category: "Robotic Surgery",
+    shortDesc: "High-precision robotic-assisted surgery for complex procedures with smaller incisions and faster recovery.",
+    fullDesc: "Robotic-assisted surgical platforms provide 3D magnified vision and greater instrument precision, allowing complex procedures to be performed through minimal incisions with less blood loss and faster recovery.",
+    symptoms: ["Complex abdominal conditions", "Cases needing high surgical precision", "Referred for advanced minimal-access surgery"],
+    benefits: ["Greater surgical precision", "Smaller incisions", "Faster return to daily activity"],
+    procedureTime: "Varies by procedure",
+    recoveryTime: "2-4 Days",
+    iconName: "Bot",
+    imageUrl: "https://images.unsplash.com/photo-1584982751601-97dcc096659c?q=80&w=1200&auto=format&fit=crop",
     popular: true
   },
   {
     id: "laparoscopic-surgery",
     slug: "laparoscopic-gallbladder-hernia",
-    title: "Laparoscopic Surgery (Gallbladder & Hernia)",
+    title: "Laparoscopic Surgery",
     category: "Laparoscopic Surgery",
     shortDesc: "Advanced keyhole surgery for Gallstones, Hernia repair (3D Mesh), and Appendectomy.",
     fullDesc: "Minimally invasive laparoscopic procedure using tiny 5mm cosmetic incisions under HD camera guidance.",
@@ -47,18 +49,33 @@ export const INITIAL_SERVICES: Service[] = [
     procedureTime: "45 Mins",
     recoveryTime: "3 Days",
     iconName: "Activity",
-    imageUrl: "/images/doctor_consultation.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1551190822-a9333d879b1f?q=80&w=1200&auto=format&fit=crop",
     popular: true
   },
   {
-    id: "general-laser-surgery",
-    slug: "varicose-veins-hydrocele",
-    title: "General & Laser Surgery",
-    category: "General Care",
+    id: "proctosurgery",
+    slug: "laser-piles-fissure-fistula",
+    title: "Proctosurgery (Laser – Piles, Fissure, Fistula)",
+    category: "Laser Proctology",
+    shortDesc: "Painless laser treatment for Piles, Fissure, Fistula & Pilonidal Sinus with same-day discharge.",
+    fullDesc: "Modern laser hemorrhoidoplasty and FiLaC laser closure offer zero cuts, minimal post-op pain, and quick resumption of work.",
+    symptoms: ["Pain or bleeding during stool", "Anal swelling or discharge", "Chronic fissure pain"],
+    benefits: ["No open cuts or stitches", "Same-day discharge", "Rapid 48-hour recovery"],
+    procedureTime: "30 Mins",
+    recoveryTime: "1-2 Days",
+    iconName: "Zap",
+    imageUrl: "https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1200&auto=format&fit=crop",
+    popular: true
+  },
+  {
+    id: "general-surgery",
+    slug: "general-surgery",
+    title: "General Surgery",
+    category: "General Surgery",
     shortDesc: "Expert surgical treatment for Varicose Veins, Hydrocele, Lipoma, and Chronic Wound Care.",
     fullDesc: "Comprehensive surgical care following strict sterile protocols and personalized post-operative recovery.",
     symptoms: ["Swollen painful leg veins", "Abdominal swelling or lump", "Minor surgical needs"],
-    benefits: ["KGMU surgical expertise", "Precise treatment", "24/7 Emergency response"],
+    benefits: ["KGMU/ATLS-trained surgical expertise", "Precise treatment", "24/7 Emergency response"],
     procedureTime: "30-60 Mins",
     recoveryTime: "2-4 Days",
     iconName: "HeartPulse",
@@ -68,6 +85,22 @@ export const INITIAL_SERVICES: Service[] = [
 
 export const INITIAL_CLINICS: ClinicLocation[] = [
   {
+    id: "drrachits-laser-laparoscopy-clinic",
+    name: "Dr. Rachit's Laser & Laparoscopy Clinic",
+    tagline: "Robotic, Laparoscopic & Laser Proctology Center",
+    address: "LGF-1, Galaxy Health Centre, Near Neelkanth Sweets, Vivek Khand-2, Gomti Nagar",
+    area: "Gomti Nagar",
+    city: "Lucknow, UP - 226010",
+    timings: "10:00 AM - 2:00 PM | 5:00 PM - 8:00 PM",
+    days: "Monday to Saturday",
+    phone: "+91 90446 87625",
+    whatsapp: "+919044687625",
+    mapEmbedUrl: "https://www.google.com/maps?q=Dr.+Rachit%27s+Laser+%26+Laparoscopy+Clinic%2C+Galaxy+Health+Centre%2C+Near+Neelkanth+Sweets%2C+Vivek+Khand+2%2C+Gomti+Nagar%2C+Lucknow%2C+Uttar+Pradesh+226010&output=embed",
+    directionsUrl: "https://maps.app.goo.gl/9E8qqbdNQaSCd5tH7",
+    imageUrl: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.41_AM_nlfltd.jpg",
+    isPrimary: true
+  },
+  {
     id: "healing-hands-gomtinagar",
     name: "Healing Hands Clinic",
     tagline: "Laser Piles & Proctology Center",
@@ -76,12 +109,12 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
     city: "Lucknow, UP - 226010",
     timings: "10:00 AM - 2:00 PM | 5:00 PM - 8:00 PM",
     days: "Monday to Saturday",
-    phone: "+91 88558 65060",
-    whatsapp: "+918855865060",
+    phone: "+91 90446 87625",
+    whatsapp: "+919044687625",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.887640205166!2d81.00282137617578!3d26.84351336306509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be2c24ad1aaab%3A0x6b5c00e123456789!2sGomti%20Nagar%2C%20Lucknow!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
     directionsUrl: "https://maps.google.com/?q=Healing+Hands+Clinic+Gomti+Nagar+Lucknow",
     imageUrl: "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWk_8qTKRsvZJFrFim_GmcwNRFk7hSa4R-bthHg1f063Y6P87TsAVSOzCu7CvyrNaywOzt_kDdNIzMgXagSe9jmGgMf929vN3KUhW3WRXE-GCsaxBNzk5pVifO-q3ZOKRpRxdg3oFxwX7N4=w408-h306-k-no",
-    isPrimary: true
+    isPrimary: false
   },
   {
     id: "kns-memorial-hospital",
@@ -92,13 +125,24 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
     city: "Lucknow, UP - 226010",
     timings: "2:00 PM - 5:00 PM",
     days: "Monday to Saturday",
-    phone: "+91 91400 00000",
-    whatsapp: "+918855865060",
+    phone: "+91 90446 87625",
+    whatsapp: "+919044687625",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.123456789!2d81.01000000!3d26.84000000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be3a123456789!2sDr.%20KNS%20Memorial%20Hospital!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
     directionsUrl: "https://maps.google.com/?q=Dr+KNS+Memorial+Hospital+Lucknow",
-    imageUrl: "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnDlbX8cKOoImZQfa7ED94xyvTzshn2SNrA_lAUuwbqsMqg0jK5Gv8zYSJvNWzhxYssDynBnI4Lx6s0Ph4vPjSxFL6OWKzbhbD4tnueDtACpWULQ2Ys5U-JRgVlkn83aXiZuMad6KWu55M=s1360-w1360-h1020-rw",
+    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1200&auto=format&fit=crop",
     isPrimary: false
   }
+];
+
+// DEMO/PLACEHOLDER DATA — replace with real, consented photos from the clinic before launch.
+export const INITIAL_GALLERY: GalleryImage[] = [
+  { id: "gallery-1", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.41_AM_nlfltd.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "gallery-2", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.40_AM_i5pf07.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "gallery-3", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441923/Screenshot_2026-08-11_at_3.15.56_PM_rnm5ge.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "gallery-4", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441926/Screenshot_2026-08-11_at_3.15.23_PM_xsmsvx.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "gallery-5", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441930/Screenshot_2026-08-11_at_3.15.42_PM_t29oq1.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "gallery-6", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441933/Screenshot_2026-08-11_at_3.14.52_PM_p74wci.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "gallery-7", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441934/Screenshot_2026-08-11_at_3.14.27_PM_fm9soc.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" }
 ];
 
 // DEMO/PLACEHOLDER DATA — replace with real, consented patient reviews before launch.
@@ -144,7 +188,7 @@ export const INITIAL_TESTIMONIALS: Testimonial[] = [
     patientName: "Saurabh Tiwari",
     procedure: "Laser Piles Treatment",
     rating: 5,
-    comment: "Been putting off treatment for years out of fear. The laser procedure at Healing Hands Clinic took half an hour and I had almost no downtime.",
+    comment: "Been putting off treatment for years out of fear. The laser procedure at Dr. Rachit's Laser & Laparoscopy Clinic took half an hour and I had almost no downtime.",
     date: "March 2026",
     verified: true
   },
@@ -169,6 +213,9 @@ export const INITIAL_TESTIMONIALS: Testimonial[] = [
 ];
 
 export const INITIAL_BLOGS: BlogPost[] = [];
+
+export const GOOGLE_REVIEWS_URL = "https://share.google/gYm7CfMjyHjgGMHq3";
+export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/9E8qqbdNQaSCd5tH7";
 
 // LocalStorage Store Manager
 const STORAGE_KEY = 'dr_rachit_cms_store_v1';
@@ -227,6 +274,20 @@ export class CMSStore {
   static saveTestimonials(testimonials: Testimonial[]): void {
     if (typeof window !== 'undefined') {
       localStorage.setItem(`${STORAGE_KEY}_testimonials`, JSON.stringify(testimonials));
+    }
+  }
+
+  static getGallery(): GalleryImage[] {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem(`${STORAGE_KEY}_gallery`);
+      if (stored) return JSON.parse(stored);
+    }
+    return INITIAL_GALLERY;
+  }
+
+  static saveGallery(gallery: GalleryImage[]): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`${STORAGE_KEY}_gallery`, JSON.stringify(gallery));
     }
   }
 
