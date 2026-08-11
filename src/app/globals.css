@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased selection:bg-forest-600 selection:text-white;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif tracking-tight text-ink;
+  }
+}
+
+/* Hide scrollbar on the horizontal-scroll review carousel, keep native scroll/drag */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
