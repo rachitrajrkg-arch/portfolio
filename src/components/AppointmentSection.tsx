@@ -66,7 +66,7 @@ export const AppointmentForm: React.FC<BookingProps> = ({
         <div className="py-8 text-center space-y-4">
           <CheckCircle2 className="w-12 h-12 text-forest-600 mx-auto" />
           <h4 className="text-lg font-serif text-ink">Appointment Request Sent</h4>
-          <p className="text-sm text-ink/60">Our clinic team will contact you shortly to confirm your slot.</p>
+          <p className="text-sm text-ink/60">We've opened WhatsApp with your details pre-filled — just hit Send and our clinic team will confirm your slot.</p>
           <a
             href={whatsappUrl}
             target="_blank"
@@ -74,7 +74,7 @@ export const AppointmentForm: React.FC<BookingProps> = ({
             className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-full bg-forest-600 hover:bg-forest-700 text-white font-semibold text-sm transition-colors"
           >
             <MessageSquare className="w-4 h-4" />
-            Confirm on WhatsApp
+            WhatsApp didn't open? Tap here
           </a>
         </div>
       ) : (
