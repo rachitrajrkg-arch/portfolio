@@ -14,8 +14,7 @@ export const INITIAL_DOCTOR_PROFILE: DoctorProfile = {
   longBio: "Dr. Rachit Raj completed his MBBS from the prestigious King George's Medical University (KGMU), followed by MS (Gold Medalist) from Meerut University. He is a certified ATLS Instructor with Fellowship in Minimal Access Surgery (FMAS) and MCLS training. At Dr. Rachit's Laser & Laparoscopy Clinic he specializes in robotic surgery, laparoscopic procedures and modern daycare laser proctology, focusing on zero-pain recovery and same-day discharge.",
   phonePrimary: "+91 90446 87625",
   phoneSecondary: "+91 90446 87625",
-  // TEST NUMBER — verifying the WhatsApp booking hand-off before switching back to +919044687625.
-  whatsappNumber: "+919899804148",
+  whatsappNumber: "+919044687625",
   email: "drrachitraj.surgery@gmail.com",
   emergencyContact: "+91 90446 87625",
   avatarUrl: "https://media.licdn.com/dms/image/v2/D5603AQHxt5ew4TFmFw/profile-displayphoto-crop_800_800/B56Zwp0rBwGgAI-/0/1770228201011?e=1787788800&v=beta&t=WVmHyjAo5kpm8Sy9N6kwHfyTC-Ppn76bgh_r9XR0sjE",
@@ -95,8 +94,7 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
     timings: "10:00 AM - 2:00 PM | 5:00 PM - 8:00 PM",
     days: "Monday to Saturday",
     phone: "+91 90446 87625",
-    // TEST NUMBER — verifying the WhatsApp booking hand-off before switching back to +919044687625.
-    whatsapp: "+919899804148",
+    whatsapp: "+919044687625",
     mapEmbedUrl: "https://www.google.com/maps?q=Dr.+Rachit%27s+Laser+%26+Laparoscopy+Clinic%2C+Galaxy+Health+Centre%2C+Near+Neelkanth+Sweets%2C+Vivek+Khand+2%2C+Gomti+Nagar%2C+Lucknow%2C+Uttar+Pradesh+226010&output=embed",
     directionsUrl: "https://maps.app.goo.gl/9E8qqbdNQaSCd5tH7",
     imageUrl: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.41_AM_nlfltd.jpg",
