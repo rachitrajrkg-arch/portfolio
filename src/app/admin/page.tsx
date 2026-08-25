@@ -1,7 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { CMSStore, GOOGLE_REVIEWS_URL } from '../../lib/payloadData';
+import {
+  CMSStore,
+  GOOGLE_REVIEWS_URL,
+  INITIAL_DOCTOR_PROFILE,
+  INITIAL_SERVICES,
+  INITIAL_CLINICS,
+  INITIAL_TESTIMONIALS,
+  INITIAL_GALLERY,
+} from '../../lib/payloadData';
 import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, GalleryImage } from '../../types';
 import { Settings, User, Activity, Hospital, Calendar, Save, Plus, Trash2, ArrowLeft, CheckCircle2, Lock, KeyRound, LogOut, Images, Star, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
@@ -13,71 +21,75 @@ export default function AdminPage() {
   const [passcode, setPasscode] = useState('');
   const [authError, setAuthError] = useState('');
 
-  const [profile, setProfile] = useState<DoctorProfile>(CMSStore.getProfile());
-  const [services, setServices] = useState<Service[]>(CMSStore.getServices());
-  const [clinics, setClinics] = useState<ClinicLocation[]>(CMSStore.getClinics());
-  const [appointments, setAppointments] = useState<Appointment[]>(CMSStore.getAppointments());
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(CMSStore.getTestimonials());
-  const [gallery, setGallery] = useState<GalleryImage[]>(CMSStore.getGallery());
+  const [profile, setProfile] = useState<DoctorProfile>(INITIAL_DOCTOR_PROFILE);
+  const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
+  const [clinics, setClinics] = useState<ClinicLocation[]>(INITIAL_CLINICS);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(INITIAL_TESTIMONIALS);
+  const [gallery, setGallery] = useState<GalleryImage[]>(INITIAL_GALLERY);
 
   const [activeTab, setActiveTab] = useState<'profile' | 'services' | 'gallery' | 'clinics' | 'reviews' | 'appointments'>('profile');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedAuth = sessionStorage.getItem('admin_authenticated');
-      if (storedAuth === 'true') {
-        setIsAuthenticated(true);
-      }
-    }
-    setProfile(CMSStore.getProfile());
-    setServices(CMSStore.getServices());
-    setClinics(CMSStore.getClinics());
-    setAppointments(CMSStore.getAppointments());
-    setTestimonials(CMSStore.getTestimonials());
-    setGallery(CMSStore.getGallery());
+    fetch('/api/admin/session')
+      .then((res) => res.json())
+      .then((data) => setIsAuthenticated(!!data.authenticated));
+
+    CMSStore.getProfile().then(setProfile);
+    CMSStore.getServices().then(setServices);
+    CMSStore.getClinics().then(setClinics);
+    CMSStore.getAppointments().then(setAppointments);
+    CMSStore.getTestimonials().then(setTestimonials);
+    CMSStore.getGallery().then(setGallery);
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === 'drrachit123') {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passcode }),
+    });
+    if (res.ok) {
       setIsAuthenticated(true);
-      sessionStorage.setItem('admin_authenticated', 'true');
       setAuthError('');
+      CMSStore.getAppointments().then(setAppointments);
     } else {
-      setAuthError('Incorrect passcode. Please try again.');
+      const data = await res.json().catch(() => ({}));
+      setAuthError(data.error || 'Incorrect passcode. Please try again.');
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
     setIsAuthenticated(false);
-    sessionStorage.removeItem('admin_authenticated');
     setPasscode('');
   };
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    CMSStore.saveProfile(profile);
+    await CMSStore.saveProfile(profile);
     triggerSuccess();
   };
 
-  const handleSaveServices = () => {
-    CMSStore.saveServices(services);
+  const handleSaveServices = async () => {
+    await CMSStore.saveServices(services);
     triggerSuccess();
   };
 
-  const handleSaveClinics = () => {
-    CMSStore.saveClinics(clinics);
+  const handleSaveClinics = async () => {
+    await CMSStore.saveClinics(clinics);
     triggerSuccess();
   };
 
-  const handleSaveTestimonials = () => {
-    CMSStore.saveTestimonials(testimonials);
+  const handleSaveTestimonials = async () => {
+    await CMSStore.saveTestimonials(testimonials);
     triggerSuccess();
   };
 
-  const handleSaveGallery = () => {
-    CMSStore.saveGallery(gallery);
+  const handleSaveGallery = async () => {
+    await CMSStore.saveGallery(gallery);
     triggerSuccess();
   };
 
@@ -90,9 +102,9 @@ export default function AdminPage() {
     setTimeout(() => setSavedSuccess(false), 3000);
   };
 
-  const updateAppointmentStatus = (id: string, status: Appointment['status']) => {
-    CMSStore.updateAppointmentStatus(id, status);
-    setAppointments(CMSStore.getAppointments());
+  const updateAppointmentStatus = async (id: string, status: Appointment['status']) => {
+    await CMSStore.updateAppointmentStatus(id, status);
+    setAppointments(await CMSStore.getAppointments());
     triggerSuccess();
   };
 

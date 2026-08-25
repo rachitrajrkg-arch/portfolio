@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { CMSStore } from '../lib/payloadData';
+import {
+  CMSStore,
+  INITIAL_DOCTOR_PROFILE,
+  INITIAL_SERVICES,
+  INITIAL_CLINICS,
+  INITIAL_TESTIMONIALS,
+  INITIAL_GALLERY,
+} from '../lib/payloadData';
 import { DoctorProfile, Service, ClinicLocation, Testimonial, GalleryImage } from '../types';
 import { Header } from '../components/Header';
 import { HeroSection } from '../components/HeroSection';
@@ -15,22 +22,22 @@ import { FloatingCTA } from '../components/FloatingCTA';
 import { Footer } from '../components/Footer';
 
 export default function HomePage() {
-  const [profile, setProfile] = useState<DoctorProfile>(CMSStore.getProfile());
-  const [services, setServices] = useState<Service[]>(CMSStore.getServices());
-  const [clinics, setClinics] = useState<ClinicLocation[]>(CMSStore.getClinics());
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(CMSStore.getTestimonials());
-  const [gallery, setGallery] = useState<GalleryImage[]>(CMSStore.getGallery());
+  const [profile, setProfile] = useState<DoctorProfile>(INITIAL_DOCTOR_PROFILE);
+  const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
+  const [clinics, setClinics] = useState<ClinicLocation[]>(INITIAL_CLINICS);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(INITIAL_TESTIMONIALS);
+  const [gallery, setGallery] = useState<GalleryImage[]>(INITIAL_GALLERY);
 
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedServiceForBooking, setSelectedServiceForBooking] = useState('');
   const [selectedClinicForBooking, setSelectedClinicForBooking] = useState('');
 
   useEffect(() => {
-    setProfile(CMSStore.getProfile());
-    setServices(CMSStore.getServices());
-    setClinics(CMSStore.getClinics());
-    setTestimonials(CMSStore.getTestimonials());
-    setGallery(CMSStore.getGallery());
+    CMSStore.getProfile().then(setProfile);
+    CMSStore.getServices().then(setServices);
+    CMSStore.getClinics().then(setClinics);
+    CMSStore.getTestimonials().then(setTestimonials);
+    CMSStore.getGallery().then(setGallery);
   }, []);
 
   const handleOpenBooking = (serviceOrClinicName?: string) => {

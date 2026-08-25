@@ -52,7 +52,7 @@ export const AppointmentForm: React.FC<BookingProps> = ({
       serviceId: selectedService,
       preferredDate: preferredDate || new Date().toISOString().split('T')[0],
       preferredTime: "11:00 AM",
-    });
+    }).catch(() => {});
 
     // Hand off straight to WhatsApp so the doctor gets the patient's name & number to call back.
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

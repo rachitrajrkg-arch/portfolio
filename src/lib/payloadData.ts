@@ -145,69 +145,195 @@ export const INITIAL_GALLERY: GalleryImage[] = [
   { id: "gallery-7", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441934/Screenshot_2026-08-11_at_3.14.27_PM_fm9soc.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" }
 ];
 
-// DEMO/PLACEHOLDER DATA — replace with real, consented patient reviews before launch.
+// Real patient reviews, sourced from the clinic's official Google Business listing.
 export const INITIAL_TESTIMONIALS: Testimonial[] = [
   {
-    id: "1",
-    patientName: "Vikramaditya S.",
-    procedure: "Laser Piles Treatment",
+    id: "review-1",
+    patientName: "shreyansh gupta",
+    procedure: "Laparoscopic Surgery",
     rating: 5,
-    comment: "Dr. Rachit Raj explained everything clearly. The 25-minute laser procedure was virtually painless, and I was back home the same evening.",
+    comment: "When my family found out that I had a rare and complicated problem in the stomach area, we were terrified. We didn't know which doctor to trust for such a risky operation. Luckily, someone recommended Dr. Rachit Raj. From the very first day, Dr. Rachit Raj made us feel like we were in safe hands. He didn't use big medical words—he explained the whole rare abdominal surgery in plain, simple language so we knew exactly what was going to happen. Thanks to his skills as a laparoscopic surgeon, the operation went super smoothly through tiny keyhole cuts. My recovery was way faster and much less painful than I expected! Truly the best laparoscopic surgeon in Lucknow!",
     date: "July 2026",
     verified: true
   },
   {
-    id: "2",
-    patientName: "Ananya Mishra",
-    procedure: "Laparoscopic Gallbladder",
+    id: "review-2",
+    patientName: "Dr. Anita Singh",
+    procedure: "General Surgery",
     rating: 5,
-    comment: "Excellent surgeon. Keyhole gallbladder surgery went smooth and I resumed work in 3 days. Highly recommended in Lucknow!",
+    comment: "Very professional, approachable, and explains everything clearly. Had a smooth surgical experience and good post-operative care. Highly skilled doctor with compassionate behaviour. One of the best surgeons I have consulted.",
     date: "June 2026",
     verified: true
   },
   {
-    id: "3",
-    patientName: "Rajeev Kumar",
-    procedure: "Laser Fistula Surgery",
+    id: "review-3",
+    patientName: "Harikesh Upadhyay (Hari)",
+    procedure: "Gynecomastia Surgery",
     rating: 5,
-    comment: "Was nervous about the surgery, but Dr. Rachit's team made it comfortable start to finish. No stitches, minimal pain, and healed faster than I expected.",
+    comment: "I got my gynecomastia treatment done by Dr. Rachit Raj, and I am very happy with the results. Before this, I consulted many doctors and took several medicines, but nothing worked. I was very scared about the operation, but Dr. Rachit Raj explained everything clearly and made me feel comfortable and confident. The surgery was smooth, and I did not experience significant pain after the operation. I am writing this review 20 days after my surgery, and I am very satisfied with my results. I highly recommend them to anyone considering gynecomastia treatment.",
+    date: "July 2026",
+    verified: true
+  },
+  {
+    id: "review-4",
+    patientName: "Pankaj Chaurasiya",
+    procedure: "Rectal Prolapse Surgery",
+    rating: 5,
+    comment: "Dr Rachit is an excellent surgeon. Have been there and had great experience, the way he explains about disease and treatment process is commendable. Got my rectal prolapse surgery done by him and post operative healing is very good.",
     date: "May 2026",
     verified: true
   },
   {
-    id: "4",
-    patientName: "Priya Srivastava",
-    procedure: "Hernia Repair",
-    rating: 4,
-    comment: "Good experience overall. The mesh repair was done with tiny cuts and I was discharged the next day. Follow-up calls were helpful too.",
-    date: "April 2026",
+    id: "review-5",
+    patientName: "SUBHASH Gupta",
+    procedure: "General Consultation",
+    rating: 5,
+    comment: "I had a great experience with Dr Rachit Raj. I got appointment easily and the waiting time was very short. The doctor made an accurate diagnosis in a very short time. His nature is also very humble. Overall very good experience.",
+    date: "May 2026",
     verified: true
   },
   {
-    id: "5",
-    patientName: "Saurabh Tiwari",
-    procedure: "Laser Piles Treatment",
+    id: "review-6",
+    patientName: "Labiya Mirza",
+    procedure: "Laparoscopic Surgery",
     rating: 5,
-    comment: "Been putting off treatment for years out of fear. The laser procedure at Dr. Rachit's Laser & Laparoscopy Clinic took half an hour and I had almost no downtime.",
-    date: "March 2026",
+    comment: "I had a great experience at Dr. Rachit's Laparoscopic Clinic and would highly recommend it to anyone considering minimally invasive surgery. From the very first consultation, Dr. Rachit was extremely professional, patient, and thorough in explaining the procedure, risks, and recovery process. This really helped build trust and reduced my anxiety.",
+    date: "May 2026",
     verified: true
   },
   {
-    id: "6",
-    patientName: "Kavita Awasthi",
-    procedure: "Varicose Veins",
+    id: "review-7",
+    patientName: "Bhola",
+    procedure: "Laparoscopic Hernia Repair",
     rating: 5,
-    comment: "Very professional consultation and the surgery itself was quick. Dr. Rachit answered all my questions patiently before and after the procedure.",
-    date: "February 2026",
+    comment: "Excellent experience at Dr. Rachit's Laser & Laparoscopy Clinic. The doctor is highly skilled, and the staff is very supportive. Highly recommended for laser and laparoscopic procedures. I got my Laparoscopic Hernia Procedure done. My recovery was excellent.",
+    date: "May 2026",
     verified: true
   },
   {
-    id: "7",
-    patientName: "Manish Bajpai",
-    procedure: "Laparoscopic Gallbladder",
+    id: "review-8",
+    patientName: "Devanshi Gupta",
+    procedure: "Laparoscopic Gallbladder Surgery",
     rating: 5,
-    comment: "Smooth keyhole surgery, clean recovery, and clear instructions for aftercare. Would recommend to anyone in Lucknow needing this procedure.",
-    date: "January 2026",
+    comment: "I underwent laparoscopic gallbladder surgery and had a great experience. Dr Rachit explained the procedure in detail, answered all my questions patiently, and ensured I was comfortable throughout. Recovery was faster than expected with minimal pain. Dr Rachit is a highly skilled surgeon with excellent hands.",
+    date: "May 2026",
+    verified: true
+  },
+  {
+    id: "review-9",
+    patientName: "Roli Srivastava",
+    procedure: "General Surgery",
+    rating: 5,
+    comment: "The surgery was successful, and the care provided by the doctor and staff was excellent. The doctor explained everything clearly and made us feel comfortable throughout the process. Thank you so much.",
+    date: "May 2026",
+    verified: true
+  },
+  {
+    id: "review-10",
+    patientName: "Poonam Raj",
+    procedure: "Hernia Surgery",
+    rating: 5,
+    comment: "I recently visited Dr Rachit Raj for consultation of my Hernia Surgery. He was very polite and humble. His explanation to my problem was very good and I am happy with his empathetic approach. My hernia surgery went very good.",
+    date: "May 2026",
+    verified: true
+  },
+  {
+    id: "review-11",
+    patientName: "Aisha Ahmad",
+    procedure: "Laparoscopic Surgery",
+    rating: 5,
+    comment: "I had a great experience at Dr. Rachit's Laparoscopic Clinic and would highly recommend it to anyone considering minimally invasive surgery.",
+    date: "May 2026",
+    verified: true
+  },
+  {
+    id: "review-12",
+    patientName: "Bablu Chaurasiya",
+    procedure: "Pilonidal Sinus Surgery",
+    rating: 5,
+    comment: "Dr Rachit Raj is a good surgeon for Pilonidal sinus, the doctor is highly skilled, and staff very supportive. First consultation with Dr Rachit Raj was extremely professional. Good experience.",
+    date: "May 2026",
+    verified: true
+  },
+  {
+    id: "review-13",
+    patientName: "Nafish Ali",
+    procedure: "General Consultation",
+    rating: 5,
+    comment: "Best clinic, thank you so much, very happy and satisfied. Dr Rachit Raj sir.",
+    date: "July 2026",
+    verified: true
+  },
+  {
+    id: "review-14",
+    patientName: "Gulab Chand",
+    procedure: "Laser Fistula Treatment",
+    rating: 5,
+    comment: "Excellent treatment of fistula. Thank you Dr Rachit.",
+    date: "May 2026",
+    verified: true
+  },
+  {
+    id: "review-15",
+    patientName: "Kaptan",
+    procedure: "General Consultation",
+    rating: 5,
+    comment: "Dr. Rachit is a very experienced, skillful, talented and compassionate doctor. I recently visited his clinic for consultation and treatment of my patient and I am very impressed with his caring and compassionate behaviour. May he be successful and treat more patients.",
+    date: "August 2026",
+    verified: true
+  },
+  {
+    id: "review-16",
+    patientName: "Sonu Singh",
+    procedure: "Laser Surgery",
+    rating: 5,
+    comment: "Very happy with my laser surgery. Thank you.",
+    date: "August 2026",
+    verified: true
+  },
+  {
+    id: "review-17",
+    patientName: "J.P Mishra",
+    procedure: "General Consultation",
+    rating: 5,
+    comment: "Fantastic, very good and experienced doctor.",
+    date: "August 2026",
+    verified: true
+  },
+  {
+    id: "review-18",
+    patientName: "Piu Pal",
+    procedure: "Laparoscopic Gallbladder Surgery",
+    rating: 5,
+    comment: "I recently underwent laparoscopic gallbladder surgery under the expert care of Dr. Rachit Raj. From my very first consultation, Dr. Rachit Raj explained my condition and the surgical procedure in a clear and reassuring manner. He patiently answered all my questions, which gave me confidence and helped ease my anxiety before the surgery. The surgery was performed successfully, and my recovery was much smoother than I had expected. I experienced minimal pain, very small scars, and was able to return to my normal routine much sooner. I strongly recommend Dr. Rachit Raj to anyone seeking a skilled, experienced, and caring laparoscopic surgeon.",
+    date: "July 2026",
+    verified: true
+  },
+  {
+    id: "review-19",
+    patientName: "Parthajit Pal",
+    procedure: "Laparoscopic Gallbladder Surgery",
+    rating: 5,
+    comment: "My wife underwent laparoscopic gallbladder surgery under the care of Dr. Rachit Raj and had an excellent experience. From the very first consultation, Dr. Rachit Raj explained the entire procedure in detail, answered every question patiently, and ensured she felt comfortable and confident throughout the treatment. The surgery was successful, and her recovery was smooth, with minimal pain and discomfort. We are grateful for the excellent treatment and highly recommend Dr. Rachit to anyone seeking expert care for gallbladder or other laparoscopic surgeries.",
+    date: "July 2026",
+    verified: true
+  },
+  {
+    id: "review-20",
+    patientName: "veer vikram singh",
+    procedure: "General Treatment",
+    rating: 5,
+    comment: "I have a very positive experience with Dr Rachit Raj. From the first consultation to the completion of my treatment they are very knowledgeable and caring.",
+    date: "July 2026",
+    verified: true
+  },
+  {
+    id: "review-21",
+    patientName: "Subhash Chandra",
+    procedure: "General Treatment",
+    rating: 5,
+    comment: "He is a very skilled and able surgeon. Great respect for him. He treated my husband and now my husband is doing good. Thank you sir.",
+    date: "June 2026",
     verified: true
   }
 ];
@@ -217,108 +343,84 @@ export const INITIAL_BLOGS: BlogPost[] = [];
 export const GOOGLE_REVIEWS_URL = "https://share.google/gYm7CfMjyHjgGMHq3";
 export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/9E8qqbdNQaSCd5tH7";
 
-// LocalStorage Store Manager
-const STORAGE_KEY = 'dr_rachit_cms_store_v1';
+// Server-backed CMS Store — reads/writes go through /api/cms and persist in Postgres,
+// so admin edits show up for every visitor on every device.
+async function apiGet<T>(key: string, fallback: T): Promise<T> {
+  const res = await fetch(`/api/cms/${key}`, { cache: 'no-store' });
+  if (!res.ok) return fallback;
+  const data = await res.json();
+  return data ?? fallback;
+}
+
+async function apiPut<T>(key: string, value: T): Promise<void> {
+  await fetch(`/api/cms/${key}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(value),
+  });
+}
 
 export class CMSStore {
-  static getProfile(): DoctorProfile {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(`${STORAGE_KEY}_profile`);
-      if (stored) return JSON.parse(stored);
-    }
-    return INITIAL_DOCTOR_PROFILE;
+  static getProfile(): Promise<DoctorProfile> {
+    return apiGet('profile', INITIAL_DOCTOR_PROFILE);
   }
 
-  static saveProfile(profile: DoctorProfile): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_profile`, JSON.stringify(profile));
-    }
+  static saveProfile(profile: DoctorProfile): Promise<void> {
+    return apiPut('profile', profile);
   }
 
-  static getServices(): Service[] {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(`${STORAGE_KEY}_services`);
-      if (stored) return JSON.parse(stored);
-    }
-    return INITIAL_SERVICES;
+  static getServices(): Promise<Service[]> {
+    return apiGet('services', INITIAL_SERVICES);
   }
 
-  static saveServices(services: Service[]): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_services`, JSON.stringify(services));
-    }
+  static saveServices(services: Service[]): Promise<void> {
+    return apiPut('services', services);
   }
 
-  static getClinics(): ClinicLocation[] {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(`${STORAGE_KEY}_clinics`);
-      if (stored) return JSON.parse(stored);
-    }
-    return INITIAL_CLINICS;
+  static getClinics(): Promise<ClinicLocation[]> {
+    return apiGet('clinics', INITIAL_CLINICS);
   }
 
-  static saveClinics(clinics: ClinicLocation[]): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_clinics`, JSON.stringify(clinics));
-    }
+  static saveClinics(clinics: ClinicLocation[]): Promise<void> {
+    return apiPut('clinics', clinics);
   }
 
-  static getTestimonials(): Testimonial[] {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(`${STORAGE_KEY}_testimonials`);
-      if (stored) return JSON.parse(stored);
-    }
-    return INITIAL_TESTIMONIALS;
+  static getTestimonials(): Promise<Testimonial[]> {
+    return apiGet('testimonials', INITIAL_TESTIMONIALS);
   }
 
-  static saveTestimonials(testimonials: Testimonial[]): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_testimonials`, JSON.stringify(testimonials));
-    }
+  static saveTestimonials(testimonials: Testimonial[]): Promise<void> {
+    return apiPut('testimonials', testimonials);
   }
 
-  static getGallery(): GalleryImage[] {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(`${STORAGE_KEY}_gallery`);
-      if (stored) return JSON.parse(stored);
-    }
-    return INITIAL_GALLERY;
+  static getGallery(): Promise<GalleryImage[]> {
+    return apiGet('gallery', INITIAL_GALLERY);
   }
 
-  static saveGallery(gallery: GalleryImage[]): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_gallery`, JSON.stringify(gallery));
-    }
+  static saveGallery(gallery: GalleryImage[]): Promise<void> {
+    return apiPut('gallery', gallery);
   }
 
-  static getAppointments(): Appointment[] {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(`${STORAGE_KEY}_appointments`);
-      if (stored) return JSON.parse(stored);
-    }
-    return [];
+  static async getAppointments(): Promise<Appointment[]> {
+    const res = await fetch('/api/cms/appointments', { cache: 'no-store' });
+    if (!res.ok) return [];
+    return res.json();
   }
 
-  static addAppointment(apt: Omit<Appointment, 'id' | 'createdAt' | 'status'>): Appointment {
-    const existing = this.getAppointments();
-    const newApt: Appointment = {
-      ...apt,
-      id: `apt-${Date.now().toString().slice(-4)}`,
-      status: 'Pending',
-      createdAt: new Date().toISOString().split('T')[0]
-    };
-    const updated = [newApt, ...existing];
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_appointments`, JSON.stringify(updated));
-    }
-    return newApt;
+  static async addAppointment(apt: Omit<Appointment, 'id' | 'createdAt' | 'status'>): Promise<Appointment> {
+    const res = await fetch('/api/cms/appointments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(apt),
+    });
+    return res.json();
   }
 
-  static updateAppointmentStatus(id: string, status: Appointment['status']): void {
-    const existing = this.getAppointments();
-    const updated = existing.map(a => a.id === id ? { ...a, status } : a);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY}_appointments`, JSON.stringify(updated));
-    }
+  static async updateAppointmentStatus(id: string, status: Appointment['status']): Promise<void> {
+    await fetch(`/api/cms/appointments/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
   }
 }
