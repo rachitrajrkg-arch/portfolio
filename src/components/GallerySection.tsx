@@ -6,11 +6,14 @@ import { X } from 'lucide-react';
 
 interface GalleryProps {
   images: GalleryImage[];
+  title: string;
+  description: string;
+  id?: string;
 }
 
 const AUTO_SCROLL_SPEED = 35; // px per second
 
-export const GallerySection: React.FC<GalleryProps> = ({ images }) => {
+export const GallerySection: React.FC<GalleryProps> = ({ images, title, description, id }) => {
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const loopWidthRef = useRef(0);
@@ -77,13 +80,13 @@ export const GallerySection: React.FC<GalleryProps> = ({ images }) => {
   if (images.length === 0) return null;
 
   return (
-    <section id="gallery" className="py-16 sm:py-20 border-t border-ink/10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 mb-5">
+    <section id={id} className="pt-8 pb-2">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 mb-5">
 
-        <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <h2 className="text-3xl sm:text-4xl font-serif text-ink">Gallery</h2>
-          <p className="text-ink/60 text-base max-w-sm">
-            A look inside Dr. Rachit's Laser &amp; Laparoscopy Clinic.
+        <div className="space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-serif text-ink">{title}</h2>
+          <p className="text-ink/60 text-base max-w-xl">
+            {description}
           </p>
         </div>
       </div>

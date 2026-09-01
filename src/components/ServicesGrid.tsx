@@ -21,9 +21,9 @@ export const ServicesGrid: React.FC<ServicesProps> = ({ services, onOpenBooking 
     <section id="services" className="py-16 sm:py-20 border-t border-ink/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
 
-        <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <div className="space-y-2">
           <h2 className="text-2xl sm:text-3xl font-serif text-ink">Surgical Specialties</h2>
-          <p className="text-ink/60 text-base max-w-sm">
+          <p className="text-ink/60 text-base max-w-xl">
             Daycare procedures with same-day discharge and minimal recovery time.
           </p>
         </div>

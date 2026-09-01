@@ -3,6 +3,7 @@
 import React from 'react';
 import { DoctorProfile } from '../types';
 import { Calendar, Phone, ExternalLink } from 'lucide-react';
+import { AnimatedCounter } from './AnimatedCounter';
 
 interface HeroProps {
   profile: DoctorProfile;
@@ -11,7 +12,6 @@ interface HeroProps {
 
 export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => {
   const linkedinUrl = "https://www.linkedin.com/in/rachit-raj-b34220189/";
-
   return (
     <section className="py-14 sm:py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +84,9 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
                 </div>
                 <div className="w-px h-8 bg-ink/10" />
                 <div>
-                  <p className="text-lg font-serif text-forest-700">{profile.surgeriesCount.toLocaleString()}+</p>
+                  <p className="text-lg font-serif text-forest-700">
+                    <AnimatedCounter value={profile.surgeriesCount} suffix="+" duration={3200} />
+                  </p>
                   <p className="text-sm text-ink/50 uppercase tracking-wide">Surgeries</p>
                 </div>
               </div>

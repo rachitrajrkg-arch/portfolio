@@ -44,6 +44,7 @@ export interface ClinicLocation {
   city: string;
   timings: string;
   days: string;
+  sundayTimings?: string;
   phone: string;
   whatsapp: string;
   mapEmbedUrl: string;

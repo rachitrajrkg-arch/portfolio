@@ -6,7 +6,6 @@ import { Header } from './Header';
 import { HeroSection } from './HeroSection';
 import { AboutSection } from './AboutSection';
 import { ServicesGrid } from './ServicesGrid';
-import { GallerySection } from './GallerySection';
 import { ClinicLocations } from './ClinicLocations';
 import { TestimonialSlider } from './TestimonialSlider';
 import { AppointmentForm } from './AppointmentSection';
@@ -18,7 +17,8 @@ interface HomePageClientProps {
   services: Service[];
   clinics: ClinicLocation[];
   testimonials: Testimonial[];
-  gallery: GalleryImage[];
+  doctorGallery: GalleryImage[];
+  clinicGallery: GalleryImage[];
 }
 
 export const HomePageClient: React.FC<HomePageClientProps> = ({
@@ -26,7 +26,8 @@ export const HomePageClient: React.FC<HomePageClientProps> = ({
   services,
   clinics,
   testimonials,
-  gallery,
+  doctorGallery,
+  clinicGallery,
 }) => {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedServiceForBooking, setSelectedServiceForBooking] = useState('');
@@ -53,20 +54,17 @@ export const HomePageClient: React.FC<HomePageClientProps> = ({
       {/* 2. Hero: name, credentials, primary CTAs */}
       <HeroSection profile={profile} onOpenBooking={() => handleOpenBooking()} />
 
-      {/* 3. About: bio, degrees, trust-strip stats */}
-      <AboutSection profile={profile} />
+      {/* 3. About: bio, degrees, trust-strip stats, doctor gallery */}
+      <AboutSection profile={profile} doctorGallery={doctorGallery} />
 
       {/* 4. Surgical Specialties */}
       <ServicesGrid services={services} onOpenBooking={(serviceName) => handleOpenBooking(serviceName)} />
 
-      {/* 5. Clinic Gallery */}
-      <GallerySection images={gallery} />
-
-      {/* 6. Patient Reviews */}
+      {/* 5. Patient Reviews */}
       <TestimonialSlider testimonials={testimonials} />
 
-      {/* 6. Clinic OPD Locations */}
-      <ClinicLocations clinics={clinics} onOpenBooking={(clinicName) => handleOpenBooking(clinicName)} />
+      {/* 6. Clinic OPD Locations + clinic gallery */}
+      <ClinicLocations clinics={clinics} clinicGallery={clinicGallery} onOpenBooking={(clinicName) => handleOpenBooking(clinicName)} />
 
       {/* 7. Book Appointment */}
       <AppointmentForm profile={profile} clinics={clinics} services={services} />

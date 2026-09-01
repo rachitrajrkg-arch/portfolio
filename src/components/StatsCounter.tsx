@@ -1,5 +1,6 @@
 import React from 'react';
 import { DoctorProfile } from '../types';
+import { AnimatedCounter } from './AnimatedCounter';
 
 interface StatsProps {
   profile: DoctorProfile;
@@ -13,7 +14,9 @@ export const StatsCounter: React.FC<StatsProps> = ({ profile }) => {
         <p className="text-sm text-ink/50 mt-0.5">Years Experience</p>
       </div>
       <div>
-        <p className="text-xl font-serif text-forest-700">{profile.surgeriesCount.toLocaleString()}+</p>
+        <p className="text-xl font-serif text-forest-700">
+          <AnimatedCounter value={profile.surgeriesCount} suffix="+" duration={3200} />
+        </p>
         <p className="text-sm text-ink/50 mt-0.5">Procedures</p>
       </div>
       <div>

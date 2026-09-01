@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ADMIN_COOKIE_NAME } from '@/lib/adminAuth';
+import { ADMIN_COOKIE_NAME, isPasscodeValid } from '@/lib/adminAuth';
 
 export async function POST(req: NextRequest) {
   const { passcode } = await req.json();
 
-  if (!process.env.ADMIN_PASSCODE || !process.env.ADMIN_SESSION_TOKEN) {
+  if (!process.env.ADMIN_SESSION_TOKEN) {
     return NextResponse.json({ error: 'Admin login is not configured' }, { status: 500 });
   }
 
-  if (passcode !== process.env.ADMIN_PASSCODE) {
+  if (!(await isPasscodeValid(passcode))) {
     return NextResponse.json({ error: 'Incorrect passcode' }, { status: 401 });
   }
 

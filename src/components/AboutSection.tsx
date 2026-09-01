@@ -1,12 +1,14 @@
 import React from 'react';
-import { DoctorProfile } from '../types';
+import { DoctorProfile, GalleryImage } from '../types';
 import { StatsCounter } from './StatsCounter';
+import { GallerySection } from './GallerySection';
 
 interface AboutProps {
   profile: DoctorProfile;
+  doctorGallery: GalleryImage[];
 }
 
-export const AboutSection: React.FC<AboutProps> = ({ profile }) => {
+export const AboutSection: React.FC<AboutProps> = ({ profile, doctorGallery }) => {
   return (
     <section id="about" className="py-16 sm:py-20 border-t border-ink/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,6 +46,13 @@ export const AboutSection: React.FC<AboutProps> = ({ profile }) => {
 
         </div>
       </div>
+
+      <GallerySection
+        id="doctor-gallery"
+        images={doctorGallery}
+        title="Doctor Gallery"
+        description="A look at Dr. Rachit Raj and moments from practice."
+      />
     </section>
   );
 };

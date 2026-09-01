@@ -8,10 +8,11 @@ import {
   INITIAL_SERVICES,
   INITIAL_CLINICS,
   INITIAL_TESTIMONIALS,
-  INITIAL_GALLERY,
+  INITIAL_DOCTOR_GALLERY,
+  INITIAL_CLINIC_GALLERY,
 } from '../../lib/payloadData';
 import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, GalleryImage } from '../../types';
-import { Settings, User, Activity, Hospital, Calendar, Save, Plus, Trash2, ArrowLeft, CheckCircle2, Lock, KeyRound, LogOut, Images, Star, ExternalLink } from 'lucide-react';
+import { Settings, User, Activity, Hospital, Calendar, Save, Plus, Trash2, ArrowLeft, CheckCircle2, Lock, KeyRound, LogOut, Images, Star, ExternalLink, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 const SERVICE_CATEGORIES: Service['category'][] = ['Robotic Surgery', 'Laparoscopic Surgery', 'Laser Proctology', 'General Surgery', 'General Care', 'Emergency Care'];
@@ -20,15 +21,23 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [passcode, setPasscode] = useState('');
   const [authError, setAuthError] = useState('');
+  const [loginView, setLoginView] = useState<'login' | 'changePassword'>('login');
 
   const [profile, setProfile] = useState<DoctorProfile>(INITIAL_DOCTOR_PROFILE);
   const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
   const [clinics, setClinics] = useState<ClinicLocation[]>(INITIAL_CLINICS);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(INITIAL_TESTIMONIALS);
-  const [gallery, setGallery] = useState<GalleryImage[]>(INITIAL_GALLERY);
+  const [doctorGallery, setDoctorGallery] = useState<GalleryImage[]>(INITIAL_DOCTOR_GALLERY);
+  const [clinicGallery, setClinicGallery] = useState<GalleryImage[]>(INITIAL_CLINIC_GALLERY);
 
-  const [activeTab, setActiveTab] = useState<'profile' | 'services' | 'gallery' | 'clinics' | 'reviews' | 'appointments'>('profile');
+  const [currentPasscode, setCurrentPasscode] = useState('');
+  const [newPasscode, setNewPasscode] = useState('');
+  const [confirmPasscode, setConfirmPasscode] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordSuccess, setPasswordSuccess] = useState('');
+
+  const [activeTab, setActiveTab] = useState<'profile' | 'services' | 'gallery' | 'clinics' | 'reviews' | 'appointments' | 'settings'>('profile');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   useEffect(() => {
@@ -41,7 +50,8 @@ export default function AdminPage() {
     CMSStore.getClinics().then(setClinics);
     CMSStore.getAppointments().then(setAppointments);
     CMSStore.getTestimonials().then(setTestimonials);
-    CMSStore.getGallery().then(setGallery);
+    CMSStore.getDoctorGallery().then(setDoctorGallery);
+    CMSStore.getClinicGallery().then(setClinicGallery);
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -88,9 +98,41 @@ export default function AdminPage() {
     triggerSuccess();
   };
 
-  const handleSaveGallery = async () => {
-    await CMSStore.saveGallery(gallery);
+  const handleSaveDoctorGallery = async () => {
+    await CMSStore.saveDoctorGallery(doctorGallery);
     triggerSuccess();
+  };
+
+  const handleSaveClinicGallery = async () => {
+    await CMSStore.saveClinicGallery(clinicGallery);
+    triggerSuccess();
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordError('');
+    setPasswordSuccess('');
+
+    if (newPasscode !== confirmPasscode) {
+      setPasswordError('New passcode and confirmation do not match.');
+      return;
+    }
+
+    const res = await fetch('/api/admin/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPasscode, newPasscode }),
+    });
+
+    if (res.ok) {
+      setPasswordSuccess('Passcode updated. Use it next time you log in.');
+      setCurrentPasscode('');
+      setNewPasscode('');
+      setConfirmPasscode('');
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setPasswordError(data.error || 'Could not update passcode.');
+    }
   };
 
   const setClinicPrimary = (id: string) => {
@@ -115,43 +157,121 @@ export default function AdminPage() {
         <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
             <div className="w-14 h-14 bg-teal-500/10 text-teal-400 rounded-2xl flex items-center justify-center mx-auto border border-teal-500/20">
-              <Lock className="w-7 h-7" />
+              {loginView === 'login' ? <Lock className="w-7 h-7" /> : <ShieldCheck className="w-7 h-7" />}
             </div>
-            <h1 className="text-2xl font-sans font-bold text-white tracking-tight">Doctor CMS Admin Login</h1>
-            <p className="text-sm text-slate-400">Enter your secure passcode to manage portfolio & OPD data</p>
+            <h1 className="text-2xl font-sans font-bold text-white tracking-tight">
+              {loginView === 'login' ? 'Doctor CMS Admin Login' : 'Change Admin Passcode'}
+            </h1>
+            <p className="text-sm text-slate-400">
+              {loginView === 'login'
+                ? 'Enter your secure passcode to manage portfolio & OPD data'
+                : 'Enter your current passcode and choose a new one'}
+            </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-sm font-bold text-slate-300">Admin Passcode</label>
-              <div className="relative">
+          {loginView === 'login' ? (
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-sm font-bold text-slate-300">Admin Passcode</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={passcode}
+                    onChange={(e) => setPasscode(e.target.value)}
+                    placeholder="Enter admin passcode"
+                    className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:border-teal-500 outline-none text-sm text-white placeholder-slate-600 font-medium"
+                  />
+                  <KeyRound className="w-4 h-4 text-slate-500 absolute right-3.5 top-3.5" />
+                </div>
+                {authError && (
+                  <p className="text-sm text-rose-400 font-semibold mt-1">{authError}</p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-lg transition-colors flex items-center justify-center gap-2"
+              >
+                <span>Unlock Admin Panel</span>
+              </button>
+
+              <div className="text-center pt-2 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => { setLoginView('changePassword'); setAuthError(''); setPasswordError(''); setPasswordSuccess(''); }}
+                  className="block w-full text-sm text-slate-400 hover:text-teal-400 transition-colors"
+                >
+                  Change Admin Passcode
+                </button>
+                {/* <Link href="/" className="block text-sm text-slate-400 hover:text-slate-200 transition-colors">
+                  ← Back to Doctor Website
+                </Link> */}
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleChangePassword} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-sm font-bold text-slate-300">Current Passcode</label>
                 <input
                   type="password"
-                  value={passcode}
-                  onChange={(e) => setPasscode(e.target.value)}
-                  placeholder="Enter admin passcode"
-                  className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:border-teal-500 outline-none text-sm text-white placeholder-slate-600 font-medium"
+                  value={currentPasscode}
+                  onChange={(e) => setCurrentPasscode(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-teal-500 outline-none text-sm font-medium text-white"
+                  required
                 />
-                <KeyRound className="w-4 h-4 text-slate-500 absolute right-3.5 top-3.5" />
               </div>
-              {authError && (
-                <p className="text-sm text-rose-400 font-semibold mt-1">{authError}</p>
+
+              <div className="space-y-1">
+                <label className="text-sm font-bold text-slate-300">New Passcode</label>
+                <input
+                  type="password"
+                  value={newPasscode}
+                  onChange={(e) => setNewPasscode(e.target.value)}
+                  placeholder="At least 6 characters"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-teal-500 outline-none text-sm font-medium text-white placeholder-slate-600"
+                  minLength={6}
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-bold text-slate-300">Confirm New Passcode</label>
+                <input
+                  type="password"
+                  value={confirmPasscode}
+                  onChange={(e) => setConfirmPasscode(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-teal-500 outline-none text-sm font-medium text-white"
+                  minLength={6}
+                  required
+                />
+              </div>
+
+              {passwordError && (
+                <p className="text-sm text-rose-400 font-semibold">{passwordError}</p>
               )}
-            </div>
+              {passwordSuccess && (
+                <p className="text-sm text-emerald-400 font-semibold">{passwordSuccess}</p>
+              )}
 
-            <button
-              type="submit"
-              className="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-lg transition-colors flex items-center justify-center gap-2"
-            >
-              <span>Unlock Admin Panel</span>
-            </button>
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-lg transition-colors flex items-center justify-center gap-2"
+              >
+                <Save className="w-4 h-4" />
+                <span>Update Passcode</span>
+              </button>
 
-            <div className="text-center pt-2">
-              <Link href="/" className="text-sm text-slate-400 hover:text-slate-200 transition-colors">
-                ← Back to Doctor Website
-              </Link>
-            </div>
-          </form>
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => { setLoginView('login'); setPasswordError(''); setPasswordSuccess(''); }}
+                  className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                >
+                  ← Back to Login
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     );
@@ -245,7 +365,7 @@ export default function AdminPage() {
             }`}
           >
             <Images className="w-4 h-4" />
-            Gallery ({gallery.length})
+            Gallery ({doctorGallery.length + clinicGallery.length})
           </button>
 
           <button
@@ -282,6 +402,18 @@ export default function AdminPage() {
           >
             <Calendar className="w-4 h-4" />
             Appointments ({appointments.length})
+          </button>
+
+          <button
+            onClick={() => setActiveTab('settings')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-colors ${
+              activeTab === 'settings'
+                ? 'bg-teal-600 text-white'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4" />
+            Settings
           </button>
         </div>
 
@@ -597,66 +729,140 @@ export default function AdminPage() {
 
         {/* Tab: Gallery Editor */}
         {activeTab === 'gallery' && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-sans font-bold text-white">Manage Gallery</h2>
-              <button
-                onClick={() => setGallery([...gallery, { id: `gallery-${Date.now()}`, url: '', caption: 'Dr. Rachit\'s Laser & Laparoscopy Clinic' }])}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add Image
-              </button>
-            </div>
+          <div className="space-y-12">
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {gallery.map((img, index) => (
-                <div key={img.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
-                  <div className="aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-700">
-                    {img.url && <img src={img.url} alt={img.caption} className="w-full h-full object-cover" />}
-                  </div>
-                  <input
-                    type="text"
-                    value={img.url}
-                    placeholder="Image URL (https://...)"
-                    onChange={(e) => {
-                      const updated = [...gallery];
-                      updated[index].url = e.target.value;
-                      setGallery(updated);
-                    }}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
-                  />
-                  <input
-                    type="text"
-                    value={img.caption}
-                    placeholder="Caption"
-                    onChange={(e) => {
-                      const updated = [...gallery];
-                      updated[index].caption = e.target.value;
-                      setGallery(updated);
-                    }}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
-                  />
-                  <button
-                    onClick={() => setGallery(gallery.filter((g) => g.id !== img.id))}
-                    className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-red-950/60 text-red-400 hover:bg-red-900 text-sm font-bold transition-colors"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    Remove
-                  </button>
+            {/* Doctor Gallery */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-sans font-bold text-white">Doctor Gallery</h2>
+                  <p className="text-sm text-slate-400 mt-0.5">Shown below the "About the Doctor" section.</p>
                 </div>
-              ))}
+                <button
+                  onClick={() => setDoctorGallery([...doctorGallery, { id: `doctor-gallery-${Date.now()}`, url: '', caption: 'Dr. Rachit\'s Laser & Laparoscopy Clinic' }])}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Image
+                </button>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {doctorGallery.map((img, index) => (
+                  <div key={img.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
+                    <div className="aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-700">
+                      {img.url && <img src={img.url} alt={img.caption} className="w-full h-full object-cover" />}
+                    </div>
+                    <input
+                      type="text"
+                      value={img.url}
+                      placeholder="Image URL (https://...)"
+                      onChange={(e) => {
+                        const updated = [...doctorGallery];
+                        updated[index].url = e.target.value;
+                        setDoctorGallery(updated);
+                      }}
+                      className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
+                    />
+                    <input
+                      type="text"
+                      value={img.caption}
+                      placeholder="Caption"
+                      onChange={(e) => {
+                        const updated = [...doctorGallery];
+                        updated[index].caption = e.target.value;
+                        setDoctorGallery(updated);
+                      }}
+                      className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
+                    />
+                    <button
+                      onClick={() => setDoctorGallery(doctorGallery.filter((g) => g.id !== img.id))}
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-red-950/60 text-red-400 hover:bg-red-900 text-sm font-bold transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  onClick={handleSaveDoctorGallery}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-md transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  Save Doctor Gallery
+                </button>
+              </div>
             </div>
 
-            <div className="flex justify-end pt-4">
-              <button
-                onClick={handleSaveGallery}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-md transition-colors"
-              >
-                <Save className="w-4 h-4" />
-                Save Gallery
-              </button>
+            {/* Clinic Gallery */}
+            <div className="space-y-6 pt-8 border-t border-slate-800">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-sans font-bold text-white">Clinic Gallery</h2>
+                  <p className="text-sm text-slate-400 mt-0.5">Shown below the Primary Clinic in the Clinics &amp; OPD section.</p>
+                </div>
+                <button
+                  onClick={() => setClinicGallery([...clinicGallery, { id: `clinic-gallery-${Date.now()}`, url: '', caption: 'Dr. Rachit\'s Laser & Laparoscopy Clinic' }])}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Image
+                </button>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {clinicGallery.map((img, index) => (
+                  <div key={img.id} className="bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-3">
+                    <div className="aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-700">
+                      {img.url && <img src={img.url} alt={img.caption} className="w-full h-full object-cover" />}
+                    </div>
+                    <input
+                      type="text"
+                      value={img.url}
+                      placeholder="Image URL (https://...)"
+                      onChange={(e) => {
+                        const updated = [...clinicGallery];
+                        updated[index].url = e.target.value;
+                        setClinicGallery(updated);
+                      }}
+                      className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
+                    />
+                    <input
+                      type="text"
+                      value={img.caption}
+                      placeholder="Caption"
+                      onChange={(e) => {
+                        const updated = [...clinicGallery];
+                        updated[index].caption = e.target.value;
+                        setClinicGallery(updated);
+                      }}
+                      className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
+                    />
+                    <button
+                      onClick={() => setClinicGallery(clinicGallery.filter((g) => g.id !== img.id))}
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-red-950/60 text-red-400 hover:bg-red-900 text-sm font-bold transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  onClick={handleSaveClinicGallery}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-md transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  Save Clinic Gallery
+                </button>
+              </div>
             </div>
+
           </div>
         )}
 
@@ -803,7 +1009,7 @@ export default function AdminPage() {
 
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div className="space-y-1">
-                      <label className="text-sm font-bold text-slate-400">OPD Timings</label>
+                      <label className="text-sm font-bold text-slate-400">OPD Timings (Mon–Sat)</label>
                       <input
                         type="text"
                         value={clinic.timings}
@@ -813,6 +1019,21 @@ export default function AdminPage() {
                           setClinics(updated);
                         }}
                         className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-sm font-bold text-slate-400">Sunday Timings</label>
+                      <input
+                        type="text"
+                        value={clinic.sundayTimings || ''}
+                        placeholder="e.g. Closed, or Prior Appointment Only"
+                        onChange={(e) => {
+                          const updated = [...clinics];
+                          updated[idx].sundayTimings = e.target.value;
+                          setClinics(updated);
+                        }}
+                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-600"
                       />
                     </div>
 
@@ -1101,6 +1322,74 @@ export default function AdminPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Tab: Settings */}
+        {activeTab === 'settings' && (
+          <div className="max-w-lg bg-slate-800 border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+            <h2 className="text-xl font-sans font-bold text-white flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-teal-400" />
+              Change Admin Passcode
+            </h2>
+            <p className="text-sm text-slate-400 -mt-4">
+              Update the passcode used to log into this dashboard. You'll need it the next time you sign in.
+            </p>
+
+            <form onSubmit={handleChangePassword} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-sm font-bold text-slate-300">Current Passcode</label>
+                <input
+                  type="password"
+                  value={currentPasscode}
+                  onChange={(e) => setCurrentPasscode(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 focus:border-teal-500 outline-none text-sm font-medium text-white"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-bold text-slate-300">New Passcode</label>
+                <input
+                  type="password"
+                  value={newPasscode}
+                  onChange={(e) => setNewPasscode(e.target.value)}
+                  placeholder="At least 6 characters"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 focus:border-teal-500 outline-none text-sm font-medium text-white placeholder-slate-600"
+                  minLength={6}
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-bold text-slate-300">Confirm New Passcode</label>
+                <input
+                  type="password"
+                  value={confirmPasscode}
+                  onChange={(e) => setConfirmPasscode(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 focus:border-teal-500 outline-none text-sm font-medium text-white"
+                  minLength={6}
+                  required
+                />
+              </div>
+
+              {passwordError && (
+                <p className="text-sm text-rose-400 font-semibold">{passwordError}</p>
+              )}
+              {passwordSuccess && (
+                <p className="text-sm text-emerald-400 font-semibold">{passwordSuccess}</p>
+              )}
+
+              <div className="flex justify-end pt-2">
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm shadow-md transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  Update Passcode
+                </button>
+              </div>
+            </form>
           </div>
         )}
 

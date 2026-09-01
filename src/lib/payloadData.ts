@@ -93,6 +93,7 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
     city: "Lucknow, UP - 226010",
     timings: "10:00 AM - 2:00 PM | 5:00 PM - 8:00 PM",
     days: "Monday to Saturday",
+    sundayTimings: "Closed",
     phone: "+91 90446 87625",
     whatsapp: "+919044687625",
     mapEmbedUrl: "https://www.google.com/maps?q=Dr.+Rachit%27s+Laser+%26+Laparoscopy+Clinic%2C+Galaxy+Health+Centre%2C+Near+Neelkanth+Sweets%2C+Vivek+Khand+2%2C+Gomti+Nagar%2C+Lucknow%2C+Uttar+Pradesh+226010&output=embed",
@@ -109,6 +110,7 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
     city: "Lucknow, UP - 226010",
     timings: "10:00 AM - 2:00 PM | 5:00 PM - 8:00 PM",
     days: "Monday to Saturday",
+    sundayTimings: "Closed",
     phone: "+91 90446 87625",
     whatsapp: "+919044687625",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.887640205166!2d81.00282137617578!3d26.84351336306509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be2c24ad1aaab%3A0x6b5c00e123456789!2sGomti%20Nagar%2C%20Lucknow!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
@@ -125,6 +127,7 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
     city: "Lucknow, UP - 226010",
     timings: "2:00 PM - 5:00 PM",
     days: "Monday to Saturday",
+    sundayTimings: "Closed",
     phone: "+91 90446 87625",
     whatsapp: "+919044687625",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.123456789!2d81.01000000!3d26.84000000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be3a123456789!2sDr.%20KNS%20Memorial%20Hospital!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
@@ -134,15 +137,27 @@ export const INITIAL_CLINICS: ClinicLocation[] = [
   }
 ];
 
-// DEMO/PLACEHOLDER DATA — replace with real, consented photos from the clinic before launch.
-export const INITIAL_GALLERY: GalleryImage[] = [
-  { id: "gallery-1", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.41_AM_nlfltd.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
-  { id: "gallery-2", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.40_AM_i5pf07.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
-  { id: "gallery-3", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441923/Screenshot_2026-08-11_at_3.15.56_PM_rnm5ge.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
-  { id: "gallery-4", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441926/Screenshot_2026-08-11_at_3.15.23_PM_xsmsvx.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
-  { id: "gallery-5", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441930/Screenshot_2026-08-11_at_3.15.42_PM_t29oq1.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
-  { id: "gallery-6", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441933/Screenshot_2026-08-11_at_3.14.52_PM_p74wci.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
-  { id: "gallery-7", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441934/Screenshot_2026-08-11_at_3.14.27_PM_fm9soc.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" }
+// Doctor Gallery — shown below the "About the Doctor" section.
+export const INITIAL_DOCTOR_GALLERY: GalleryImage[] = [
+  { id: "doctor-gallery-1", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.41_AM_nlfltd.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "doctor-gallery-2", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.40_AM_i5pf07.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "doctor-gallery-3", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441923/Screenshot_2026-08-11_at_3.15.56_PM_rnm5ge.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "doctor-gallery-4", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441926/Screenshot_2026-08-11_at_3.15.23_PM_xsmsvx.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "doctor-gallery-5", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441930/Screenshot_2026-08-11_at_3.15.42_PM_t29oq1.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "doctor-gallery-6", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441933/Screenshot_2026-08-11_at_3.14.52_PM_p74wci.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "doctor-gallery-7", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441934/Screenshot_2026-08-11_at_3.14.27_PM_fm9soc.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" }
+];
+
+// Clinic Gallery — shown below the Primary Clinic block in the Clinics & OPD section.
+// Starts from the same photos as the doctor gallery; edit independently from /admin.
+export const INITIAL_CLINIC_GALLERY: GalleryImage[] = [
+  { id: "clinic-gallery-1", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.41_AM_nlfltd.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "clinic-gallery-2", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441905/WhatsApp_Image_2026-08-11_at_11.35.40_AM_i5pf07.jpg", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "clinic-gallery-3", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441923/Screenshot_2026-08-11_at_3.15.56_PM_rnm5ge.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "clinic-gallery-4", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441926/Screenshot_2026-08-11_at_3.15.23_PM_xsmsvx.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "clinic-gallery-5", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441930/Screenshot_2026-08-11_at_3.15.42_PM_t29oq1.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "clinic-gallery-6", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441933/Screenshot_2026-08-11_at_3.14.52_PM_p74wci.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" },
+  { id: "clinic-gallery-7", url: "https://res.cloudinary.com/dlv1uvt41/image/upload/v1786441934/Screenshot_2026-08-11_at_3.14.27_PM_fm9soc.png", caption: "Dr. Rachit's Laser & Laparoscopy Clinic" }
 ];
 
 // Real patient reviews, sourced from the clinic's official Google Business listing.
@@ -393,12 +408,20 @@ export class CMSStore {
     return apiPut('testimonials', testimonials);
   }
 
-  static getGallery(): Promise<GalleryImage[]> {
-    return apiGet('gallery', INITIAL_GALLERY);
+  static getDoctorGallery(): Promise<GalleryImage[]> {
+    return apiGet('doctorGallery', INITIAL_DOCTOR_GALLERY);
   }
 
-  static saveGallery(gallery: GalleryImage[]): Promise<void> {
-    return apiPut('gallery', gallery);
+  static saveDoctorGallery(gallery: GalleryImage[]): Promise<void> {
+    return apiPut('doctorGallery', gallery);
+  }
+
+  static getClinicGallery(): Promise<GalleryImage[]> {
+    return apiGet('clinicGallery', INITIAL_CLINIC_GALLERY);
+  }
+
+  static saveClinicGallery(gallery: GalleryImage[]): Promise<void> {
+    return apiPut('clinicGallery', gallery);
   }
 
   static async getAppointments(): Promise<Appointment[]> {

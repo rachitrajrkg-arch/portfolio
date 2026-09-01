@@ -1,13 +1,15 @@
 import React from 'react';
-import { ClinicLocation } from '../types';
+import { ClinicLocation, GalleryImage } from '../types';
 import { MapPin, Clock, Navigation, Phone, MessageSquare } from 'lucide-react';
+import { GallerySection } from './GallerySection';
 
 interface ClinicProps {
   clinics: ClinicLocation[];
+  clinicGallery: GalleryImage[];
   onOpenBooking: (clinicName?: string) => void;
 }
 
-export const ClinicLocations: React.FC<ClinicProps> = ({ clinics, onOpenBooking }) => {
+export const ClinicLocations: React.FC<ClinicProps> = ({ clinics, clinicGallery, onOpenBooking }) => {
   const primaryClinic = clinics.find((c) => c.isPrimary) || clinics[0];
   const otherClinics = clinics.filter((c) => c.id !== primaryClinic?.id);
 
@@ -49,6 +51,12 @@ export const ClinicLocations: React.FC<ClinicProps> = ({ clinics, onOpenBooking 
                     <Clock className="w-4 h-4 text-ink/40 shrink-0" />
                     <span>{primaryClinic.days} · {primaryClinic.timings}</span>
                   </div>
+                  {primaryClinic.sundayTimings && (
+                    <div className="flex items-center gap-2.5">
+                      <Clock className="w-4 h-4 text-ink/40 shrink-0" />
+                      <span>Sunday · {primaryClinic.sundayTimings}</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-2.5">
                     <Phone className="w-4 h-4 text-ink/40 shrink-0" />
                     <a href={`tel:${primaryClinic.phone}`} className="hover:text-forest-700 transition-colors">{primaryClinic.phone}</a>
@@ -86,6 +94,16 @@ export const ClinicLocations: React.FC<ClinicProps> = ({ clinics, onOpenBooking 
           </div>
         )}
 
+      </div>
+
+      <GallerySection
+        id="clinic-gallery"
+        images={clinicGallery}
+        title="Clinic Gallery"
+        description="A look inside our clinic facilities."
+      />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {otherClinics.length > 0 && (
           <div className="space-y-5 pt-4">
             <p className="text-sm font-semibold uppercase tracking-widest text-ink/50">Also available at</p>
@@ -121,6 +139,12 @@ export const ClinicLocations: React.FC<ClinicProps> = ({ clinics, onOpenBooking 
                           <Clock className="w-3.5 h-3.5 text-ink/40 shrink-0" />
                           <span>{clinic.days} · {clinic.timings}</span>
                         </div>
+                        {clinic.sundayTimings && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-3.5 h-3.5 text-ink/40 shrink-0" />
+                            <span>Sunday · {clinic.sundayTimings}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
 
