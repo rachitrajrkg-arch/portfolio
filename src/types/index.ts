@@ -16,7 +16,6 @@ export interface DoctorProfile {
   emergencyContact: string;
   avatarUrl: string;
   logoUrl: string;
-  heroBadge: string;
 }
 
 export interface Service {

@@ -9,7 +9,6 @@ export const INITIAL_DOCTOR_PROFILE: DoctorProfile = {
   experienceYears: 10,
   surgeriesCount: 5000,
   satisfactionRate: 99.4,
-  heroBadge: "MBBS (KGMU) | MS (Gold Medalist) | FMAS, MCLS",
   bio: "Specialist in painless laser proctology (Piles, Fissure, Fistula) and robotic & laparoscopic keyhole surgeries at Dr. Rachit's Laser & Laparoscopy Clinic, Gomti Nagar, Lucknow.",
   longBio: "Dr. Rachit Raj completed his MBBS from the prestigious King George's Medical University (KGMU), followed by MS (Gold Medalist) from Meerut University. He is a certified ATLS Instructor with Fellowship in Minimal Access Surgery (FMAS) and MCLS training. At Dr. Rachit's Laser & Laparoscopy Clinic he specializes in robotic surgery, laparoscopic procedures and modern daycare laser proctology, focusing on zero-pain recovery and same-day discharge.",
   phonePrimary: "+91 90446 87625",

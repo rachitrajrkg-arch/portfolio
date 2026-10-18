@@ -18,9 +18,11 @@ export const HeroSection: React.FC<HeroProps> = ({ profile, onOpenBooking }) => 
         <div className="grid md:grid-cols-12 gap-10 lg:gap-16 items-center">
 
           <div className="md:col-span-7 space-y-6">
-            <p className="text-sm font-semibold uppercase tracking-widest text-forest-700">
-              {profile.heroBadge} 
-            </p>
+            {profile.degrees.length > 0 && (
+              <p className="text-sm font-semibold uppercase tracking-widest text-forest-700">
+                {profile.degrees.join(' | ')}
+              </p>
+            )}
 
             <div>
               <h1 className="text-4xl sm:text-5xl font-serif text-ink leading-[1.1]">
