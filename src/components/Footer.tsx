@@ -1,10 +1,22 @@
 import React from 'react';
+import Link from 'next/link';
 import { DoctorProfile } from '../types';
 import { ExternalLink } from 'lucide-react';
 
 interface FooterProps {
   profile: DoctorProfile;
 }
+
+// Footer renders on the homepage and on /blog pages, so section links are absolute (/#id).
+const FOOTER_LINKS = [
+  { label: 'About', href: '/#about' },
+  { label: 'Specialties', href: '/#services' },
+  { label: 'Gallery', href: '/#doctor-gallery' },
+  { label: 'Reviews', href: '/#reviews' },
+  { label: 'Clinics', href: '/#clinics' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/#appointment' },
+];
 
 export const Footer: React.FC<FooterProps> = ({ profile }) => {
   const linkedinUrl = "https://www.linkedin.com/in/rachit-raj-b34220189/";
@@ -28,6 +40,14 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
+
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-base font-semibold text-forest-100/80">
+          {FOOTER_LINKS.map((link) => (
+            <Link key={link.label} href={link.href} className="hover:text-white transition-colors">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm">
           <p>© {new Date().getFullYear()} Dr. Rachit Raj. All rights reserved.</p>

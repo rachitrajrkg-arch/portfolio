@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Phone, Menu, X, Calendar } from 'lucide-react';
 import { DoctorProfile, ClinicLocation } from '../types';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   profile: DoctorProfile;
@@ -13,6 +14,9 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ profile, primaryClinic, onOpenBooking }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  // Section anchors only exist on the homepage — from any other route, resolve them back to it.
+  const sectionHref = (hash: string) => (pathname === '/' ? hash : `/${hash}`);
 
   return (
     <header className="w-full sticky top-0 z-40 bg-paper/95 backdrop-blur-sm border-b border-ink/10">
@@ -53,12 +57,13 @@ export const Header: React.FC<HeaderProps> = ({ profile, primaryClinic, onOpenBo
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-ink/70">
-          <a href="#about" className="hover:text-forest-700 transition-colors">About</a>
-          <a href="#services" className="hover:text-forest-700 transition-colors">Specialties</a>
-          <a href="#gallery" className="hover:text-forest-700 transition-colors">Gallery</a>
-          <a href="#reviews" className="hover:text-forest-700 transition-colors">Reviews</a>
-          <a href="#clinics" className="hover:text-forest-700 transition-colors">Clinics</a>
-          <a href="#appointment" className="hover:text-forest-700 transition-colors">Contact</a>
+          <a href={sectionHref('#about')} className="hover:text-forest-700 transition-colors">About</a>
+          <a href={sectionHref('#services')} className="hover:text-forest-700 transition-colors">Specialties</a>
+          <a href={sectionHref('#doctor-gallery')} className="hover:text-forest-700 transition-colors">Gallery</a>
+          <a href={sectionHref('#reviews')} className="hover:text-forest-700 transition-colors">Reviews</a>
+          <a href={sectionHref('#clinics')} className="hover:text-forest-700 transition-colors">Clinics</a>
+          <Link href="/blog" className="hover:text-forest-700 transition-colors">Blog</Link>
+          <a href={sectionHref('#appointment')} className="hover:text-forest-700 transition-colors">Contact</a>
         </nav>
 
         <div className="hidden sm:block">
@@ -83,12 +88,13 @@ export const Header: React.FC<HeaderProps> = ({ profile, primaryClinic, onOpenBo
       {mobileMenuOpen && (
         <div className="md:hidden bg-paper border-t border-ink/10 px-6 py-5 space-y-4">
           <div className="flex flex-col space-y-3 text-base text-ink/80">
-            <a href="#about" onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">About</a>
-            <a href="#services" onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Specialties</a>
-            <a href="#gallery" onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Gallery</a>
-            <a href="#reviews" onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Reviews</a>
-            <a href="#clinics" onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Clinics</a>
-            <a href="#appointment" onClick={() => setMobileMenuOpen(false)} className="py-1">Contact</a>
+            <a href={sectionHref('#about')} onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">About</a>
+            <a href={sectionHref('#services')} onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Specialties</a>
+            <a href={sectionHref('#doctor-gallery')} onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Gallery</a>
+            <a href={sectionHref('#reviews')} onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Reviews</a>
+            <a href={sectionHref('#clinics')} onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Clinics</a>
+            <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="py-1 border-b border-ink/10">Blog</Link>
+            <a href={sectionHref('#appointment')} onClick={() => setMobileMenuOpen(false)} className="py-1">Contact</a>
           </div>
 
           <button

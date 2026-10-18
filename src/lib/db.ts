@@ -7,7 +7,7 @@ declare global {
   var __pgSchemaReady: Promise<void> | undefined;
 }
 
-function getPool(): Pool {
+export function getPool(): Pool {
   if (!global.__pgPool) {
     global.__pgPool = new Pool({
       connectionString: process.env.DATABASE_URL,

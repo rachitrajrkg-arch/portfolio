@@ -83,14 +83,42 @@ export interface GalleryImage {
   caption: string;
 }
 
+export type Block =
+  | { id: string; type: 'heading'; level: 2 | 3; text: string }
+  | { id: string; type: 'paragraph'; text: string }
+  | { id: string; type: 'bulletList'; items: string[] }
+  | { id: string; type: 'todo'; items: { id: string; text: string; checked: boolean }[] }
+  | { id: string; type: 'image'; url: string; caption?: string }
+  | { id: string; type: 'quote'; text: string; attribution?: string }
+  | { id: string; type: 'divider' };
+
+export interface BlogUpdate {
+  id: string;
+  date: string; // ISO date, e.g. "2026-09-17"
+  blocks: Block[];
+}
+
+export interface BlogContent {
+  original: { blocks: Block[] };
+  updates: BlogUpdate[];
+}
+
 export interface BlogPost {
   id: string;
   slug: string;
   title: string;
   summary: string;
-  content: string;
+  coverUrl?: string;
   category: string;
-  readTime: string;
-  publishedAt: string;
   author: string;
+  status: 'draft' | 'published';
+  metaTitle?: string;
+  metaDescription?: string;
+  content: BlogContent;
+  publishedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
+
+// Fields the client sends when creating/updating a post — server derives id/timestamps.
+export type BlogPostInput = Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt' | 'publishedAt'>;

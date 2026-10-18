@@ -1,4 +1,4 @@
-import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, BlogPost, GalleryImage } from '@/types';
+import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, GalleryImage, BlogPost, BlogPostInput } from '@/types';
 
 export const INITIAL_DOCTOR_PROFILE: DoctorProfile = {
   name: "Dr. Rachit Raj",
@@ -353,8 +353,6 @@ export const INITIAL_TESTIMONIALS: Testimonial[] = [
   }
 ];
 
-export const INITIAL_BLOGS: BlogPost[] = [];
-
 export const GOOGLE_REVIEWS_URL = "https://share.google/gYm7CfMjyHjgGMHq3";
 export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/9E8qqbdNQaSCd5tH7";
 
@@ -445,5 +443,41 @@ export class CMSStore {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });
+  }
+
+  static async getBlogPosts(): Promise<BlogPost[]> {
+    const res = await fetch('/api/blog', { cache: 'no-store' });
+    if (!res.ok) return [];
+    return res.json();
+  }
+
+  static async createBlogPost(input: BlogPostInput): Promise<BlogPost> {
+    const res = await fetch('/api/blog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Could not create post');
+    }
+    return res.json();
+  }
+
+  static async updateBlogPost(id: string, input: BlogPostInput): Promise<BlogPost> {
+    const res = await fetch(`/api/blog/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Could not save post');
+    }
+    return res.json();
+  }
+
+  static async deleteBlogPost(id: string): Promise<void> {
+    await fetch(`/api/blog/${id}`, { method: 'DELETE' });
   }
 }

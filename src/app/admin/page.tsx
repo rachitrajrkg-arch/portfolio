@@ -11,9 +11,11 @@ import {
   INITIAL_DOCTOR_GALLERY,
   INITIAL_CLINIC_GALLERY,
 } from '../../lib/payloadData';
-import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, GalleryImage } from '../../types';
-import { Settings, User, Activity, Hospital, Calendar, Save, Plus, Trash2, ArrowLeft, CheckCircle2, Lock, KeyRound, LogOut, Images, Star, ExternalLink, ShieldCheck } from 'lucide-react';
+import { DoctorProfile, Service, ClinicLocation, Appointment, Testimonial, GalleryImage, BlogPost, BlogPostInput } from '../../types';
+import { Settings, User, Activity, Hospital, Calendar, Save, Plus, Trash2, ArrowLeft, CheckCircle2, Lock, KeyRound, LogOut, Images, Star, ExternalLink, ShieldCheck, Newspaper } from 'lucide-react';
 import Link from 'next/link';
+import { BlogListView } from '../../components/admin/BlogListView';
+import { BlogEditor } from '../../components/admin/BlogEditor';
 
 const SERVICE_CATEGORIES: Service['category'][] = ['Robotic Surgery', 'Laparoscopic Surgery', 'Laser Proctology', 'General Surgery', 'General Care', 'Emergency Care'];
 
@@ -30,6 +32,10 @@ export default function AdminPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>(INITIAL_TESTIMONIALS);
   const [doctorGallery, setDoctorGallery] = useState<GalleryImage[]>(INITIAL_DOCTOR_GALLERY);
   const [clinicGallery, setClinicGallery] = useState<GalleryImage[]>(INITIAL_CLINIC_GALLERY);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [blogView, setBlogView] = useState<'list' | 'editor'>('list');
+  const [editingBlogPost, setEditingBlogPost] = useState<BlogPost | null>(null);
+  const [blogEditorInitialLayer, setBlogEditorInitialLayer] = useState<'original' | 'new'>('original');
 
   const [currentPasscode, setCurrentPasscode] = useState('');
   const [newPasscode, setNewPasscode] = useState('');
@@ -37,7 +43,7 @@ export default function AdminPage() {
   const [passwordError, setPasswordError] = useState('');
   const [passwordSuccess, setPasswordSuccess] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'profile' | 'services' | 'gallery' | 'clinics' | 'reviews' | 'appointments' | 'settings'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'services' | 'gallery' | 'clinics' | 'reviews' | 'blog' | 'appointments' | 'settings'>('profile');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   useEffect(() => {
@@ -52,6 +58,7 @@ export default function AdminPage() {
     CMSStore.getTestimonials().then(setTestimonials);
     CMSStore.getDoctorGallery().then(setDoctorGallery);
     CMSStore.getClinicGallery().then(setClinicGallery);
+    CMSStore.getBlogPosts().then(setBlogPosts);
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -65,6 +72,7 @@ export default function AdminPage() {
       setIsAuthenticated(true);
       setAuthError('');
       CMSStore.getAppointments().then(setAppointments);
+      CMSStore.getBlogPosts().then(setBlogPosts);
     } else {
       const data = await res.json().catch(() => ({}));
       setAuthError(data.error || 'Incorrect passcode. Please try again.');
@@ -137,6 +145,41 @@ export default function AdminPage() {
 
   const setClinicPrimary = (id: string) => {
     setClinics(clinics.map((c) => ({ ...c, isPrimary: c.id === id })));
+  };
+
+  const handleCreateNewPost = () => {
+    setEditingBlogPost(null);
+    setBlogEditorInitialLayer('original');
+    setBlogView('editor');
+  };
+
+  const handleEditPost = (post: BlogPost) => {
+    setEditingBlogPost(post);
+    setBlogEditorInitialLayer('original');
+    setBlogView('editor');
+  };
+
+  const handleAddUpdateToPost = (post: BlogPost) => {
+    setEditingBlogPost(post);
+    setBlogEditorInitialLayer('new');
+    setBlogView('editor');
+  };
+
+  const handleDeletePost = async (post: BlogPost) => {
+    if (!window.confirm(`Delete "${post.title}"? This cannot be undone.`)) return;
+    await CMSStore.deleteBlogPost(post.id);
+    setBlogPosts(blogPosts.filter((p) => p.id !== post.id));
+    triggerSuccess();
+  };
+
+  const handleSaveBlogPost = async (input: BlogPostInput) => {
+    const saved = editingBlogPost
+      ? await CMSStore.updateBlogPost(editingBlogPost.id, input)
+      : await CMSStore.createBlogPost(input);
+    setBlogPosts(await CMSStore.getBlogPosts());
+    setEditingBlogPost(saved);
+    setBlogView('list');
+    triggerSuccess();
   };
 
   const triggerSuccess = () => {
@@ -390,6 +433,18 @@ export default function AdminPage() {
           >
             <Hospital className="w-4 h-4" />
             Clinics & OPD ({clinics.length})
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('blog'); setBlogView('list'); }}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-colors ${
+              activeTab === 'blog'
+                ? 'bg-teal-600 text-white'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+            }`}
+          >
+            <Newspaper className="w-4 h-4" />
+            Blog Posts ({blogPosts.length})
           </button>
 
           <button
@@ -1119,6 +1174,26 @@ export default function AdminPage() {
               </button>
             </div>
           </div>
+        )}
+
+        {/* Tab: Blog Editor */}
+        {activeTab === 'blog' && (
+          blogView === 'list' ? (
+            <BlogListView
+              posts={blogPosts}
+              onCreateNew={handleCreateNewPost}
+              onEdit={handleEditPost}
+              onAddUpdate={handleAddUpdateToPost}
+              onDelete={handleDeletePost}
+            />
+          ) : (
+            <BlogEditor
+              post={editingBlogPost}
+              initialLayer={blogEditorInitialLayer}
+              onSave={handleSaveBlogPost}
+              onCancel={() => setBlogView('list')}
+            />
+          )
         )}
 
         {/* Tab: Reviews Editor */}

@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { DoctorProfile, Service, ClinicLocation, Testimonial, GalleryImage } from '../types';
+import { DoctorProfile, Service, ClinicLocation, Testimonial, GalleryImage, BlogPost } from '../types';
 import { Header } from './Header';
 import { HeroSection } from './HeroSection';
 import { AboutSection } from './AboutSection';
 import { ServicesGrid } from './ServicesGrid';
 import { ClinicLocations } from './ClinicLocations';
 import { TestimonialSlider } from './TestimonialSlider';
+import { BlogSection } from './BlogSection';
 import { AppointmentForm } from './AppointmentSection';
 import { FloatingCTA } from './FloatingCTA';
 import { Footer } from './Footer';
@@ -19,6 +20,7 @@ interface HomePageClientProps {
   testimonials: Testimonial[];
   doctorGallery: GalleryImage[];
   clinicGallery: GalleryImage[];
+  blogPosts: BlogPost[];
 }
 
 export const HomePageClient: React.FC<HomePageClientProps> = ({
@@ -28,6 +30,7 @@ export const HomePageClient: React.FC<HomePageClientProps> = ({
   testimonials,
   doctorGallery,
   clinicGallery,
+  blogPosts,
 }) => {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedServiceForBooking, setSelectedServiceForBooking] = useState('');
@@ -63,10 +66,13 @@ export const HomePageClient: React.FC<HomePageClientProps> = ({
       {/* 5. Patient Reviews */}
       <TestimonialSlider testimonials={testimonials} />
 
-      {/* 6. Clinic OPD Locations + clinic gallery */}
+      {/* 6. Latest blog posts (hidden until at least one is published) */}
+      <BlogSection posts={blogPosts} />
+
+      {/* 7. Clinic OPD Locations + clinic gallery */}
       <ClinicLocations clinics={clinics} clinicGallery={clinicGallery} onOpenBooking={(clinicName) => handleOpenBooking(clinicName)} />
 
-      {/* 7. Book Appointment */}
+      {/* 8. Book Appointment */}
       <AppointmentForm profile={profile} clinics={clinics} services={services} />
 
       {/* Single floating WhatsApp action */}
